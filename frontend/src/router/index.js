@@ -15,7 +15,7 @@ const routes = [
     component: () => import("../views/Patients.vue") // set patients as path '/'
   },
   {
-    path: "/patients/:id",
+    path: "/patient/:id",
     name: "Patient",
     component: () => import("../views/Patient.vue") // set patients as path '/'
   },

@@ -54,7 +54,7 @@ export default {
   height: 8vh;
 }
 .vl {
-  border-left: 6px solid #c4c4c4;
+  border-left: 4px solid #c4c4c4;
   height: 87vh;
 }
 .container-menu {
