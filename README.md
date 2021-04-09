@@ -14,5 +14,4 @@ $ npm install bulma axios vue-router
 $ cd frontend
 $ npm run serve
 ```
-install
 
