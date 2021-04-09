@@ -1,0 +1,57 @@
+<div class="column is-8 pt-6">
+  <div class="container is-max-desktop">
+    <div class="is-multiline columns is-variable is-2">
+      <!-- Card element start here------------------------------------------>
+      <div
+        id="card_product"
+        class="column is-one-quarter"
+        v-for="product in products"
+      >
+        <div
+          class="card"
+          v-bind:class="{'has-background-warning-light':product.is_favorite}"
+        >
+          <div class="card-image">
+            <figure class="image is-1by1">
+              <img :src="product.image" alt="Placeholder image" />
+            </figure>
+          </div>
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <p class="title is-4">product.title}}</p>
+                <p class="subtitle is-6">product.brand}}</p>
+                <p class="subtitle is-6 has-text-danger">
+                  product.price}} ฿
+                </p>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between">
+              <!-- คลิกที่ดาว หาก is_favorite = true ให้แสดงดาว v1 ถ้า is_favorite = false -------- -->
+              <div
+                class="icon is-size-4"
+                @click="product.is_favorite = !product.is_favorite"
+              >
+                <!-- star ทึบ -->
+                <span v-if="product.is_favorite" class="icon" key="true">
+                  <i class="fas fa-star has-text-warning"></i>
+                </span>
+
+                <!-- star ใส -->
+                <span v-else class="icon" key="false">
+                  <i class="far fa-star has-text-warning"></i>
+                </span>
+              </div>
+
+              <!-- >>>>>ไอคอนรูปตะกร้า <<<<<<,s----------------------------------------->
+              <div class="icon is-size-4" @click="addToCart(product)">
+                <i class="fas fa-shopping-cart has-text-warning"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

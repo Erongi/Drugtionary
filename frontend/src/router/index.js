@@ -1,28 +1,45 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: () => import('../views/Home.vue')
+    path: "/",
+    name: "Home",
+    component: () => import("../views/Home.vue"), // set home as path '/'
   },
   {
-    path: '/blogs/detail/:id',
-    name: 'detail',
-    component: () => import('../views/blogs/DetailBlog.vue')
+    path: "/patients",
+    name: "Patients",
+    component: () => import("../views/Patients.vue"), // set patients as path '/'
   },
   {
-    path: '/blogs/create',
-    name: 'create-blog',
-    component: () => import('../views/blogs/CreateBlog.vue')
-  }
-]
+    path: "/medicines",
+    name: "Medicines",
+    component: () => import("../views/Medicines.vue"), // set drugs as path '/'
+  },
+  {
+    path: "/note",
+    name: "Note",
+    component: () => import("../views/Note.vue"), // set note as path '/'
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: () => import("../views/Profile.vue"), // set profile as path '/'
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/Login.vue"), // set login as path '/'
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+});
 
-export default router
+export default router;

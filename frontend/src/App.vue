@@ -1,52 +1,69 @@
 <template>
-  <div id="app">
-    <!-- nav bar -->
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <router-link to="/" class="navbar-item is-size-4">
-          YouBlog
-        </router-link>
-
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div id="navbarBasicExample" class="navbar-menu">
-
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <router-link to="/blogs/create" class="button is-primary">
-                <strong>New Blog</strong>
-              </router-link>
-            </div>
-          </div>
-
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              <figure class="image is-24x24 my-auto">
-                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-              </figure>
-              <span class="pl-3">Username</span>
-            </a>
-            <div class="navbar-dropdown">
-              <a class="navbar-item">Profile</a>
-              <a class="navbar-item">Log out</a>
-            </div>
-          </div>
+  <div>
+    <div class="navbar-brand fit-12">
+      <router-link to="/">
+        <img src="./assets/logo.png" width="50" height="10"
+      /></router-link>
+      <h3>Drugtionary</h3>
+    </div>
+    <span class="line" />
+    <div class="columns">
+      <div class="column is-2">
+        <div class="has-text-centered">Menu</div>
+        <div class="container-menu">
+          <router-link to="/">Home</router-link>
+        </div>
+        <div class="container-menu">
+          <router-link to="/patients">Patient</router-link>
+        </div>
+        <div class="container-menu">
+          <router-link to="/medicines">Medicine</router-link>
+        </div>
+        <div class="container-menu">
+          <router-link to="/note">Note</router-link>
+        </div>
+        <div class="container-menu">
+          <router-link to="/profile">Profile</router-link>
         </div>
       </div>
-    </nav>
-    
-    <router-view :key="$route.fullPath" />
+      <div class="column is-1 has-text-centered"><div class="vl"></div></div>
+      <div class="column is-9"><router-view /></div>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style>
+#element::-webkit-scrollbar {
+  display: none;
+}
+.line {
+  border-bottom: 3px solid #c4c4c4;
+  width: 100%;
+  height: 10px;
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.fit-12 {
+  height: 8vh;
+}
+.vl {
+  border-left: 6px solid #c4c4c4;
+  height: 87vh;
+}
+.container-menu {
+  padding: 20px;
+  margin-left: 10px;
+  border-bottom: 1px solid #c4c4c4;
+}
+.content {
+  flex-direction: column;
+  overflow-y: auto;
+}
+</style>
