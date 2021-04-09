@@ -14,4 +14,5 @@ $ npm install bulma axios vue-router
 $ cd frontend
 $ npm run serve
 ```
-
+## Team Member
+[Tian-np][https://github.com/Tian-np]
