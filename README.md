@@ -14,5 +14,11 @@ $ npm install bulma axios vue-router
 $ cd frontend
 $ npm run serve
 ```
-## Team Member
-[Tian-np][https://github.com/Tian-np]
+
+## Team Members
+
+* นายณภัทร พรบุญเรือง - 61070044 - [Tian-np](https://github.com/tian-np)
+
+* นายพัสกร อรุณสดใส - 61070141 - [Erongi](https://github.com/Erongi)
+
+* นายวีรพงศ์ ทันจันทึก - 61070213 - [veerapong76](https://github.com/veerapong76)
