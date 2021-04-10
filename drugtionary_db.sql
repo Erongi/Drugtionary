@@ -110,6 +110,11 @@ INSERT INTO `patients` (`id`, `name`, `gender`, `age`, `image`, `symptom`) VALUE
 ('1', 'พัสกร อรุณสดใส', 'ชาย', '20', 'https://randomuser.me/api/portraits/women/1.jpg', 'เผ็ด'),
 ('2', 'วรนิช วรนุช', 'หญิง', '15', 'https://randomuser.me/api/portraits/women/12.jpg', 'หวาน');
 
+INSERT INTO `drugs` (`id`, `name`, `group`, `type`, `properties`, `pg`, `pattern`,`image`) VALUES
+('1', 'Abilify', 'ยาระงับอาการทางจิต', 'ยาตามใบสั่งแพทย์', 'รักษาโรคจิตเภท โรคไบโพลาร์ โรคซึมเศร้า กลุ่มอาการทูเร็ตต์','เด็กและผู้ใหญ่', 'ยารับประทาน ยาฉีด', 'drugs/Abilify.jpg'),
+('2', 'Erythromycin', 'ยาปฏิชีวนะในกลุ่มแมคโครไลน์', 'ยาตามใบสั่งแพทย์', 'รักษาหรือป้องกันการติดเชื้อจากแบคทีเรีย','เด็กและผู้ใหญ่', 'ยารับประทานชนิดแคปซูล ชนิดเม็ด ยาแขวนตะกอน ยาป้ายตา และยาฉีด', 'drugs/Erythromycin.jpg'),
+
+
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
