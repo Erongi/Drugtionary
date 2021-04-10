@@ -2,47 +2,35 @@
   <div class="column is-10 pt-6">
     <div class="field is-grouped">
       <p class="control pr-6">
-        <a class="button is-primary">+ Add Patient </a>
+        <a class="button is-primary">+ Add drug </a>
       </p>
       <p class="control is-expanded">
         <input
           class="input"
           type="text"
-          placeholder="Find patient(s)"
+          placeholder="Find drug(s)"
           v-model="search"
         />
       </p>
       <p class="control">
-        <a class="button is-info" @click="getPatients"> Search </a>
+        <a class="button is-info" @click="getDrugs"> Search </a>
       </p>
     </div>
-    <h1 class="is-size-4 mb-4">All patients ({{ patients.length }})</h1>
+    <h1 class="is-size-4 mb-4">All drugs ({{ drugs.length }})</h1>
     <div id="style-1" class="scroll-bar mt-6">
       <div class="container">
         <div class="is-multiline columns is-variable is-5">
           <!-- Card element start here------------------------------------------>
           <div
-            id="card_patients"
+            id="card_drugs"
             class="column is-one-quarter"
-            v-for="patient in patients"
-            :key="patient.id"
+            v-for="drug in drugs"
+            :key="drug.id"
           >
-            <div class="card" @click="patientDetail(patient.id)">
-              <div class="card-image">
-                <figure class="image is-1by1">
-                  <img :src="patient.image" alt="Placeholder image" />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p class="title is-8">{{ patient.name }}</p>
-                    <p class="is-6">อายุ : {{ patient.age }}</p>
-                    <p class="is-6">เพศ : {{ patient.gender }}</p>
-                    <p class="is-6">อาการ : {{ patient.symptom }}</p>
-                  </div>
-                </div>
-              </div>
+            <div class="card" @click="drugDetail(drug.id)">
+              <header class="card-header">
+                <p class="card-header-title">{{ drug.name }}</p>
+              </header>
             </div>
           </div>
         </div>
@@ -55,34 +43,34 @@
 import axios from "axios";
 export default {
   mounted() {
-    this.getPatients();
+    this.getDrugs();
   },
   data() {
     return {
       search: "",
-      patients: [],
+      drugs: [],
     };
   },
   methods: {
-    getPatients() {
+    getDrugs() {
       axios
-        .get("http://localhost:3000/patients", {
+        .get("http://localhost:3000/drugs", {
           params: {
             search: this.search,
           },
         })
         .then((response) => {
-          this.patients = response.data;
+          this.drugs = response.data;
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    patientDetail(id) {
+    drugDetail(id) {
       axios
-        .get(`http://localhost:3000/patient/${id}`)
+        .get(`http://localhost:3000/drug/${id}`)
         .then((response) => {
-          this.$router.push(`/patient/${id}`);
+          this.$router.push(`/drug/${id}`);
         })
         .catch((err) => {
           console.log(err);
@@ -91,7 +79,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 #style-1::-webkit-scrollbar-track {

@@ -20,9 +20,14 @@ const routes = [
     component: () => import("../views/Patient.vue") // set patients as path '/'
   },
   {
-    path: "/medicines",
-    name: "Medicines",
-    component: () => import("../views/Medicines.vue") // set drugs as path '/'
+    path: "/drugs",
+    name: "Drugs",
+    component: () => import("../views/Drugs.vue") // set drugs as path '/'
+  },
+  {
+    path: "/drug/:id",
+    name: "Drug",
+    component: () => import("../views/Drug.vue") // set drugs as path '/'
   },
   {
     path: "/note",

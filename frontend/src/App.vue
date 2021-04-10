@@ -17,7 +17,7 @@
           <router-link to="/patients">Patient</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/medicines">Medicine</router-link>
+          <router-link to="/drugs">Drug</router-link>
         </div>
         <div class="container-menu subtitle">
           <router-link to="/note">Note</router-link>
