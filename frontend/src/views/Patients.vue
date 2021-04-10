@@ -71,11 +71,6 @@
                       <i class="far fa-star has-text-warning"></i>
                     </span>
                   </div>
-
-                  <!-- >>>>>ไอคอนรูปตะกร้า <<<<<<,s----------------------------------------->
-                  <!-- <div class="icon is-size-4" @click="addToCart(patient)">
-                  <i class="fas fa-shopping-cart has-text-warning"></i>
-                </div> -->
                 </div>
               </div>
             </div>
@@ -245,7 +240,7 @@ export default {
 .scroll-bar {
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0px;
+  padding: 5px;
   margin: 0;
   height: calc(75vh - 90px);
 }

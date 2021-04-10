@@ -22,62 +22,10 @@
             v-for="medicine in medicines"
             :key="medicine.id"
           >
-            <div
-              class="card"
-              v-bind:class="{
-                'has-background-warning-light': medicine.is_favorite,
-              }"
-            >
-              <div class="card-image">
-                <figure class="image is-1by1">
-                  <img :src="medicine.image" alt="Placeholder image" />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p class="title is-6">{{ medicine.name }}</p>
-                    <p class="subtitle is-6">
-                      อายุ {{ medicine.age }}<br />
-                      {{ medicine.gender }}
-                    </p>
-                    <div for></div>
-                    <p class="subtitle is-6">{{ medicine.symptom }}</p>
-                    <div v-for="history in medicine.history" :key="history">
-                      <p class="subtitle is-6">{{ history }}</p>
-                    </div>
-                    <div
-                      v-for="medicines in medicine.medicines"
-                      :key="medicines"
-                    >
-                      <p class="subtitle is-6">{{ medicines }}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div style="display: flex; justify-content: space-between">
-                  <!-- คลิกที่ดาว หาก is_favorite = true ให้แสดงดาว v1 ถ้า is_favorite = false -------- -->
-                  <div
-                    class="icon is-size-4"
-                    @click="medicine.is_favorite = !medicine.is_favorite"
-                  >
-                    <!-- star ทึบ -->
-                    <span v-if="medicine.is_favorite" class="icon" key="true">
-                      <i class="fas fa-star has-text-warning"></i>
-                    </span>
-
-                    <!-- star ใส -->
-                    <span v-else class="icon" key="false">
-                      <i class="far fa-star has-text-warning"></i>
-                    </span>
-                  </div>
-
-                  <!-- >>>>>ไอคอนรูปตะกร้า <<<<<<,s----------------------------------------->
-                  <!-- <div class="icon is-size-4" @click="addToCart(medicine)">
-                  <i class="fas fa-shopping-cart has-text-warning"></i>
-                </div> -->
-                </div>
-              </div>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">{{ medicine.name }}</p>
+              </header>
             </div>
           </div>
         </div>
@@ -152,7 +100,7 @@ export default {
 .scroll-bar {
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0px;
+  padding: 5px;
   margin: 0;
   height: calc(75vh - 90px);
 }

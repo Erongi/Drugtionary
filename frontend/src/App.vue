@@ -9,20 +9,20 @@
     <span class="line" />
     <div class="columns">
       <div class="column is-2">
-        <div class="has-text-centered">Menu</div>
-        <div class="container-menu">
+        <!-- <div class="has-text-centered title">Menu</div> -->
+        <div class="container-menu subtitle">
           <router-link to="/">Home</router-link>
         </div>
-        <div class="container-menu">
+        <div class="container-menu subtitle">
           <router-link to="/patients">Patient</router-link>
         </div>
-        <div class="container-menu">
+        <div class="container-menu subtitle">
           <router-link to="/medicines">Medicine</router-link>
         </div>
-        <div class="container-menu">
+        <div class="container-menu subtitle">
           <router-link to="/note">Note</router-link>
         </div>
-        <div class="container-menu">
+        <div class="container-menu subtitle">
           <router-link to="/profile">Profile</router-link>
         </div>
       </div>
@@ -61,6 +61,7 @@ export default {
   padding: 20px;
   margin-left: 10px;
   border-bottom: 1px solid #c4c4c4;
+  text-align: center;
 }
 .content {
   flex-direction: column;
