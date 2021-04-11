@@ -2,7 +2,9 @@
   <div class="column is-10 pt-6">
     <div class="field is-grouped">
       <p class="control pr-6">
-        <a class="button is-primary">+ Add drug </a>
+        <router-link to="/addDrug">
+          <a class="button is-primary">+ Add drug </a>
+        </router-link>
       </p>
       <p class="control is-expanded">
         <input

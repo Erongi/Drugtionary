@@ -25,6 +25,11 @@ const routes = [
     component: () => import("../views/Drugs.vue") // set drugs as path '/'
   },
   {
+    path: "/addDrug",
+    name: "Add Drug",
+    component: () => import("../views/AddDrug.vue") // set drugs as path '/'
+  },
+  {
     path: "/drug/:id",
     name: "Drug",
     component: () => import("../views/Drug.vue") // set drugs as path '/'

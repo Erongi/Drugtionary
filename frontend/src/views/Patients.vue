@@ -27,23 +27,25 @@
             v-for="patient in patients"
             :key="patient.id"
           >
-            <div class="card" @click="patientDetail(patient.id)">
-              <div class="card-image">
-                <figure class="image is-1by1">
-                  <img :src="patient.image" alt="Placeholder image" />
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p class="title is-8">{{ patient.name }}</p>
-                    <p class="is-6">อายุ : {{ patient.age }}</p>
-                    <p class="is-6">เพศ : {{ patient.gender }}</p>
-                    <p class="is-6">อาการ : {{ patient.symptom }}</p>
+            <router-link :to="`/patient/${patient.id}`">
+              <div class="card">
+                <div class="card-image">
+                  <figure class="image is-1by1">
+                    <img :src="patient.image" alt="Placeholder image" />
+                  </figure>
+                </div>
+                <div class="card-content">
+                  <div class="media">
+                    <div class="media-content">
+                      <p class="title is-8">{{ patient.name }}</p>
+                      <p class="is-6">อายุ : {{ patient.age }}</p>
+                      <p class="is-6">เพศ : {{ patient.gender }}</p>
+                      <p class="is-6">อาการ : {{ patient.symptom }}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -73,16 +75,6 @@ export default {
         })
         .then((response) => {
           this.patients = response.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    patientDetail(id) {
-      axios
-        .get(`http://localhost:3000/patient/${id}`)
-        .then((response) => {
-          this.$router.push(`/patient/${id}`);
         })
         .catch((err) => {
           console.log(err);
