@@ -71,11 +71,11 @@ router.post(
       try {
         console.log(file.path.substr(6));
         await conn.query(
-          "INSERT INTO drugs(`name`, `group`, `type`, `properties`, `pg`, `pattern`, `image`) VALUES(?, ?,?,?,?,?,?);",
+          "INSERT INTO drugs(`name`, `group`, `type`, `properties`, `pg`, `pattern`, `image`) VALUES(?, ?, ?, ?, ?, ?, ?);",
           [name, group, type, properties, pg, pattern, file.path.substr(6)]
         );
         await conn.commit();
-        res.send("success!");
+        res.send("add drug success!");
       } catch (err) {
         await conn.rollback();
         return res.status(400).json(err);

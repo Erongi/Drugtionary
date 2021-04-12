@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS `NPT`;
 CREATE TABLE `NPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `massage` text NOT NULL,
+  `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `TDT`;
 CREATE TABLE `TDT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `massage` text NOT NULL,
+  `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `IPT`;
 CREATE TABLE `IPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `massage` text NOT NULL,
+  `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
@@ -65,7 +65,7 @@ DROP TABLE IF EXISTS `CT`;
 CREATE TABLE `CT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `massage` text NOT NULL,
+  `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;

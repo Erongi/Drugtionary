@@ -1,6 +1,24 @@
 const express = require("express");
 const pool = require("../config");
+const path = require("path");
+
 router = express.Router();
+
+// Require multer for file upload
+const multer = require("multer");
+// SET STORAGE
+var storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./static/patients");
+  },
+  filename: function (req, file, callback) {
+    callback(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const upload = multer({ storage: storage });
 
 router.get("/patients", async function (req, res, next) {
   try {
@@ -41,5 +59,43 @@ router.get("/patient/:id", function (req, res, next) {
       return res.status(500).json(err);
     });
 });
+
+router.post(
+  "/patients",
+  upload.single("myImage"),
+  async function (req, res, next) {
+    if (req.method == "POST") {
+      const file = req.file;
+      if (!file) {
+        return res.status(400).json({ message: "Please upload a file" });
+      }
+
+      const name = req.body.name;
+      const gender = req.body.gender;
+      const age = req.body.age;
+      const symptom = req.body.symptom;
+
+      const conn = await pool.getConnection();
+      // Begin transaction
+      await conn.beginTransaction();
+
+      try {
+        console.log(file.path.substr(6));
+        await conn.query(
+          "INSERT INTO patients(`name`, `gender`, `age`, `image`, `symptom`) VALUES(?, ?, ?, ?, ?);",
+          [name, gender, age, file.path.substr(6), symptom]
+        );
+        await conn.commit();
+        res.send("add patient success!");
+      } catch (err) {
+        await conn.rollback();
+        return res.status(400).json(err);
+      } finally {
+        console.log("finally");
+        conn.release();
+      }
+    }
+  }
+);
 
 exports.router = router;

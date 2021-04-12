@@ -13,8 +13,11 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 // routers
 const patientRouter = require("./routes/patient");
 const drugRouter = require("./routes/drug");
+const noteRouter = require("./routes/note");
+
 app.use(patientRouter.router);
 app.use(drugRouter.router);
+app.use(noteRouter.router);
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`);
