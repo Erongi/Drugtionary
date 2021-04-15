@@ -35,7 +35,7 @@ const routes = [
     component: () => import("../views/Drug.vue") // set drugs as path '/'
   },
   {
-    path: "/note",
+    path: "/note/:id",
     name: "Note",
     component: () => import("../views/Note.vue") // set note as path '/'
   },

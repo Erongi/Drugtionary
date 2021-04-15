@@ -20,13 +20,15 @@
           <router-link to="/drugs">Drug</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/note">Note</router-link>
+          <router-link to="/note/1">Note</router-link>
         </div>
         <div class="container-menu subtitle">
           <router-link to="/profile">Profile</router-link>
         </div>
       </div>
-      <div class="column is-1 has-text-centered"><div class="vl"></div></div>
+
+      <div class="vl" style="margin-top: 16px"></div>
+
       <div class="column is-9"><router-view /></div>
     </div>
   </div>

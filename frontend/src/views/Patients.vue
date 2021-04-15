@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-10 pt-6">
+  <div class="is-10 pt-6" style="margin-left: 5%">
     <div class="field is-grouped">
       <p class="control pr-6">
         <a class="button is-primary">+ Add Patient </a>

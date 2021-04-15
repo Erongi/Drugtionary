@@ -11,13 +11,12 @@
     </section>
     <section class="hero">
       <div class="hero-body">
-        <p class="title">Create new Blog</p>
+        <p class="title">Create new Drug</p>
       </div>
     </section>
     <section class="px-6">
       <input
         class="mb-5"
-        multiple
         type="file"
         accept="image/png, image/jpeg, image/webp"
         @change="selectImages"
@@ -39,7 +38,7 @@
               <a
                 @click="deleteSelectImage(index)"
                 class="card-footer-item has-text-danger"
-                >Delete</a
+                >Delete{{ image.id }}</a
               >
             </footer>
           </div>
@@ -47,10 +46,10 @@
       </div>
 
       <div class="field mt-5">
-        <label class="label">Title</label>
+        <label class="label">Name</label>
         <div class="control">
           <input
-            v-model="titleBlog"
+            v-model="name"
             class="input"
             type="text"
             placeholder="Text input"
@@ -58,34 +57,60 @@
         </div>
       </div>
 
-      <div class="field">
-        <label class="label">Content</label>
+      <div class="field mt-5">
+        <label class="label">Group</label>
         <div class="control">
-          <textarea
-            v-model="contentBlog"
-            class="textarea"
-            placeholder="Textarea"
-          ></textarea>
+          <input
+            v-model="group"
+            class="input"
+            type="text"
+            placeholder="Text input"
+          />
         </div>
       </div>
 
-      <div class="control mb-3">
-        <label class="radio">
-          <input v-model="statusBlog" type="radio" name="answer" value="01" />
-          Private
-        </label>
-        <label class="radio">
-          <input v-model="statusBlog" type="radio" name="answer" value="02" />
-          Public
-        </label>
-      </div>
-
-      <div class="field">
+      <div class="field mt-5">
+        <label class="label">Type</label>
         <div class="control">
-          <label class="checkbox">
-            <input v-model="pinnedBlog" type="checkbox" />
-            Pinned
-          </label>
+          <input
+            v-model="type"
+            class="input"
+            type="text"
+            placeholder="Text input"
+          />
+        </div>
+      </div>
+      <div class="field mt-5">
+        <label class="label">Properties</label>
+        <div class="control">
+          <input
+            v-model="properties"
+            class="input"
+            type="text"
+            placeholder="Text input"
+          />
+        </div>
+      </div>
+      <div class="field mt-5">
+        <label class="label">pg</label>
+        <div class="control">
+          <input
+            v-model="pg"
+            class="input"
+            type="text"
+            placeholder="Text input"
+          />
+        </div>
+      </div>
+      <div class="field mt-5">
+        <label class="label">pattern</label>
+        <div class="control">
+          <input
+            v-model="pattern"
+            class="input"
+            type="text"
+            placeholder="Text input"
+          />
         </div>
       </div>
 
@@ -109,13 +134,14 @@ import axios from "axios";
 export default {
   data() {
     return {
-      blog: {},
       error: null,
       images: [], // array of image
-      titleBlog: "",
-      contentBlog: "",
-      pinnedBlog: false,
-      statusBlog: "01",
+      name: "",
+      group: "",
+      type: "",
+      properties: "",
+      pg: "",
+      pattern: "",
     };
   },
   methods: {
@@ -133,31 +159,16 @@ export default {
     },
     submitBlog() {
       let formData = new FormData();
-      formData.append("title", this.titleBlog);
-      formData.append("content", this.contentBlog);
-      formData.append("pinned", this.pinnedBlog ? 1 : 0);
-      formData.append("status", "01");
-      this.images.forEach((image) => {
-        formData.append("myImage", image);
-      });
-
-      // Note ***************
-      // ตอนเรายิง Postmant จะใช้ fromData
-      // ตอนยิงหลาย ๆ รูปพร้อมกันใน Postman จะเป็นแบบนี้
-
-      // title   | "This is a title of blog"
-      // comment | "comment in blog"
-      // ...
-      // myImage | [select file 1]
-      // myImage | [select file 2]
-      // myImage | [select file 3]
-
-      // จะสังเกตุว่าใช้ myImage เป็น key เดียวกัน เลยต้องเอามา loop forEach
-      // พอไปฝั่ง backend มันจะจัด file ให้เป็น Array เพื่อเอาไปใช้งานต่อได้
-
+      formData.append("name", this.name);
+      formData.append("group", this.group);
+      formData.append("type", this.type);
+      formData.append("properties", this.properties);
+      formData.append("pg", this.pg);
+      formData.append("pattern", this.pattern);
+      formData.append("myImage", this.images[0]);
       axios
-        .post("http://localhost:3000/blogs", formData)
-        .then((res) => this.$router.push({ name: "home" }))
+        .post("http://localhost:3000/drugs", formData)
+        .then((res) => this.$router.push({ name: "Drugs" }))
         .catch((e) => console.log(e.response.data));
     },
   },
