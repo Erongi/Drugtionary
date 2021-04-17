@@ -1,43 +1,138 @@
 <template>
-  <div>
-    <h1>Patients</h1>
-    <h1>{{ id }}</h1>
-    <div class="columns">
-      <div class="column is-2">
-        <img
-          src="https://scontent.fbkk2-6.fna.fbcdn.net/v/t1.6435-9/41575445_1918000258267098_6614958726350635008_n.jpg?_nc_cat=104&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=rtID_NzwUpAAX_QZxYB&_nc_ht=scontent.fbkk2-6.fna&oh=e8d93a6fcf9bc52624f1c19335885d7f&oe=6094AD03"
-        />
-      </div>
-      <div class="column">
-        <h1>น้องพั้น</h1>
-        <h1>เพศ: หญิง อายุ: 999 ปี</h1>
-        <h1>อาการ:</h1>
+  <div class="columns ml-5 mt-5">
+    <div class="column is-one-fifth">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-1by1">
+            <img :src="patients.image" alt="Placeholder image" />
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <button
+                v-if="medical == null"
+                class="button is-success is-inverted"
+                @click="addPatient"
+              >
+                เพิ่มคนไข้
+              </button>
+              <div v-else>
+                <p>{{ medical.name }}</p>
+                <button
+                  class="button is-danger is-inverted"
+                  @click="delPatient"
+                >
+                  ลบคนไข้
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="columns">
-      <button class="column">ประวัติการรักษา</button>
-      <button class="column">ยาที่รับประทานอยู่</button>
-    </div>
-    <div class="rows">
-      <div>
-        <h1>ไม่สบายไอสัส</h1>
+    <div class="column">
+      <p><b>ชื่อ: </b>{{ patients.name }}</p>
+      <p><b>อายุ: </b>{{ patients.age }}</p>
+      <p><b>เพศ: </b>{{ patients.gender }}</p>
+      <p><b>อาการ: </b>{{ patients.symptom }}</p>
+      <div class="columns mt-5">
+        <div class="column">
+          <p>ยาที่รับประทาน</p>
+          <div class="columns">
+            <table class="table mt-5">
+              <thead>
+                <tr>
+                  <th>ชื่อยา</th>
+                  <th>ประเภทยา</th>
+                  <th>วันที่รับประทาน</th>
+                  <th>เวลารับประทาน</th>
+                  <th>จำนวน</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="i in history" :key="i.id">
+                  <td>{{ i.drug_name }}</td>
+                  <td>{{ i.type }}</td>
+                  <td>{{ i.date }}</td>
+                  <td>{{ i.time }}</td>
+                  <td>{{ i.amount }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  created() {
-    this.id = this.$route.params.id;
+  mounted() {
+    this.getPatientDetail(this.$route.params.id);
   },
   data() {
     return {
       id: null,
+      patients: {},
+      history: [],
+      medical: null,
     };
+  },
+  methods: {
+    getPatientDetail(id) {
+      axios
+        .get(`http://localhost:3000/patient/${id}`)
+        .then((response) => {
+          this.patients = response.data.patients;
+          this.history = response.data.history;
+          this.id = id;
+          this.getMedical(this.patients.medical_id);
+          console.log(this.medical);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    getMedical(id) {
+      axios
+        .get(`http://localhost:3000/medical/${id}`)
+        .then((response) => {
+          this.medical = response.data.medical;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    addPatient() {
+      axios
+        .put(`http://localhost:3000/patient/pair/${this.id}`)
+        .then((response) => {
+          this.medical = response.data.medical;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    delPatient() {
+      axios
+        .put(`http://localhost:3000/patient/delPair/${this.id}`)
+        .then((response) => {
+          this.medical = null;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
+.media-content {
+  display: grid;
+  align-items: center;
+}
 </style>

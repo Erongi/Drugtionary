@@ -1,17 +1,22 @@
 <template>
   <div>
     <div class="task">
-      Non Priority Tasks
+      <p class="mb-5 subtitle">Non Priority Tasks</p>
+
       <div class="sub_task" v-for="task in note.npt" :key="task.id">
         {{ task.message }}
+        <div class="level-right mr-3">
+          <i @click="delTaskNPT(task.id)" class="fas fa-trash-alt ml-5"></i>
+        </div>
       </div>
+
       <div>
         <input
           v-if="nptForm"
           @click="nptForm = !nptForm"
           type="button"
           class="btn"
-          value="+ Add Task"
+          value="เพิ่มบันทึก"
         />
         <div v-else>
           <input
@@ -22,14 +27,14 @@
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addNPT"> Submit </a>
+              <a class="button is-primary" @click="addNPT"> บันทึก </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
                 @click="(nptForm = !nptForm), (nptText = '')"
               >
-                Cancel
+                ยกเลิก
               </a>
             </p>
           </div>
@@ -38,9 +43,12 @@
     </div>
 
     <div class="task">
-      To-Do Tasks
+      <p class="mb-5">To-Do Tasks</p>
       <div class="sub_task" v-for="task in note.tdt" :key="task.id">
         {{ task.message }}
+        <div class="level-right mr-3">
+          <i @click="delTaskTDT(task.id)" class="fas fa-trash-alt ml-5"></i>
+        </div>
       </div>
       <div>
         <input
@@ -48,7 +56,7 @@
           @click="tdtForm = !tdtForm"
           type="button"
           class="btn"
-          value="+ Add Task"
+          value="เพิ่มบันทึก"
         />
         <div v-else>
           <input
@@ -59,14 +67,14 @@
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addTDT"> Submit </a>
+              <a class="button is-primary" @click="addTDT"> บันทึก </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
                 @click="(tdtForm = !tdtForm), (tdtText = '')"
               >
-                Cancel
+                ยกเลิก
               </a>
             </p>
           </div>
@@ -75,9 +83,12 @@
     </div>
 
     <div class="task">
-      In Progress Tasks
+      <p class="mb-5">In Progress Tasks</p>
       <div class="sub_task" v-for="task in note.ipt" :key="task.id">
         {{ task.message }}
+        <div class="level-right mr-3">
+          <i @click="delTaskIPT(task.id)" class="fas fa-trash-alt ml-5"></i>
+        </div>
       </div>
       <div>
         <input
@@ -85,7 +96,7 @@
           @click="iptForm = !iptForm"
           type="button"
           class="btn"
-          value="+ Add Task"
+          value="เพิ่มบันทึก"
         />
         <div v-else>
           <input
@@ -96,14 +107,14 @@
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addIPT"> Submit </a>
+              <a class="button is-primary" @click="addIPT"> บันทึก </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
                 @click="(iptForm = !iptForm), (iptText = '')"
               >
-                Cancel
+                ยกเลิก
               </a>
             </p>
           </div>
@@ -112,9 +123,15 @@
     </div>
 
     <div class="task">
-      Complete Tasks
+      <p class="mb-5">Complete Tasks</p>
       <div class="sub_task" v-for="task in note.ct" :key="'ct' + task.id">
         {{ task.message }}
+        <div class="level-right mr-3">
+          <i
+            @click="delTaskCT(task.id)"
+            class="fas fa-trash-alt level-right"
+          ></i>
+        </div>
       </div>
       <div>
         <input
@@ -122,7 +139,7 @@
           @click="ctForm = !ctForm"
           type="button"
           class="btn"
-          value="+ Add Task"
+          value="เพิ่มบันทึก"
         />
         <div v-else>
           <input
@@ -133,14 +150,14 @@
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addCT"> Submit </a>
+              <a class="button is-primary" @click="addCT"> บันทึก </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
                 @click="(ctForm = !ctForm), (ctText = '')"
               >
-                Cancel
+                ยกเลิก
               </a>
             </p>
           </div>
@@ -237,6 +254,50 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
+    },
+    delTaskNPT(id) {
+      axios
+        .delete(`http://localhost:3000/note/npt/${id}`)
+        .then((response) => {
+          this.note.npt = this.note.npt.filter((e) => e.id != id);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+      // console.log(id);
+    },
+    delTaskCT(id) {
+      axios
+        .delete(`http://localhost:3000/note/ct/${id}`)
+        .then((response) => {
+          this.note.ct = this.note.ct.filter((e) => e.id != id);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+      // console.log(id);
+    },
+    delTaskIPT(id) {
+      axios
+        .delete(`http://localhost:3000/note/ipt/${id}`)
+        .then((response) => {
+          this.note.ipt = this.note.ipt.filter((e) => e.id != id);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+      // console.log(id);
+    },
+    delTaskTDT(id) {
+      axios
+        .delete(`http://localhost:3000/note/tdt/${id}`)
+        .then((response) => {
+          this.note.tdt = this.note.tdt.filter((e) => e.id != id);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+      // console.log(id);
     },
   },
 };

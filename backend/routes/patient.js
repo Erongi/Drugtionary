@@ -41,7 +41,7 @@ router.get("/patient/:id", function (req, res, next) {
   const promise1 = pool.query("SELECT * FROM patients WHERE id=?", [
     req.params.id,
   ]);
-  const promise2 = pool.query("SELECT * FROM history WHERE userId=?", [
+  const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [
     req.params.id,
   ]);
 
@@ -58,6 +58,48 @@ router.get("/patient/:id", function (req, res, next) {
     .catch((err) => {
       return res.status(500).json(err);
     });
+});
+
+router.put("/patient/pair/:id", async function (req, res, next) {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    await conn.query("UPDATE `patients` SET `medical_id` = ? WHERE `id` = ?", [
+      1,
+      req.params.id,
+    ]);
+    await conn.commit();
+    const [
+      medicals,
+      medicalsFields,
+    ] = await conn.query("SELECT * FROM `medicals` WHERE id=?", [1]);
+    res.json({ medical: medicals[0] });
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+});
+
+router.put("/patient/delPair/:id", async function (req, res, next) {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    await conn.query(
+      "UPDATE `patients` SET `medical_id` = null WHERE `id` = ?",
+      [req.params.id]
+    );
+    await conn.commit();
+    res.json({ medicals: {} });
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
 });
 
 router.post(

@@ -4,16 +4,16 @@ const pool = require("../config");
 router = express.Router();
 
 router.get("/note/:id", function (req, res, next) {
-  const promise1 = pool.query("SELECT * FROM `ct` WHERE userId=?", [
+  const promise1 = pool.query("SELECT * FROM `ct` WHERE medical_id=?", [
     req.params.id,
   ]);
-  const promise2 = pool.query("SELECT * FROM `ipt` WHERE userId=?", [
+  const promise2 = pool.query("SELECT * FROM `ipt` WHERE medical_id=?", [
     req.params.id,
   ]);
-  const promise3 = pool.query("SELECT * FROM `npt` WHERE userId=?", [
+  const promise3 = pool.query("SELECT * FROM `npt` WHERE medical_id=?", [
     req.params.id,
   ]);
-  const promise4 = pool.query("SELECT * FROM `tdt` WHERE userId=?", [
+  const promise4 = pool.query("SELECT * FROM `tdt` WHERE medical_id=?", [
     req.params.id,
   ]);
   Promise.all([promise1, promise2, promise3, promise4])
@@ -45,7 +45,7 @@ router.post("/note/ct/:id", async function (req, res, next) {
         rows1,
         fields1,
       ] = await conn.query(
-        "INSERT INTO `ct` (`userId`, `message`) VALUES(?, ?)",
+        "INSERT INTO `ct` (`medical_id`, `message`) VALUES(?, ?)",
         [req.params.id, req.body.message]
       );
 
@@ -78,7 +78,7 @@ router.post("/note/ipt/:id", async function (req, res, next) {
         rows1,
         fields1,
       ] = await conn.query(
-        "INSERT INTO `ipt` (`userId`, `message`) VALUES(?, ?)",
+        "INSERT INTO `ipt` (`medical_id`, `message`) VALUES(?, ?)",
         [req.params.id, req.body.message]
       );
 
@@ -111,7 +111,7 @@ router.post("/note/tdt/:id", async function (req, res, next) {
         rows1,
         fields1,
       ] = await conn.query(
-        "INSERT INTO `tdt` (`userId`, `message`) VALUES(?, ?)",
+        "INSERT INTO `tdt` (`medical_id`, `message`) VALUES(?, ?)",
         [req.params.id, req.body.message]
       );
 
@@ -144,7 +144,7 @@ router.post("/note/npt/:id", async function (req, res, next) {
         rows1,
         fields1,
       ] = await conn.query(
-        "INSERT INTO `npt` (`userId`, `message`) VALUES(?, ?)",
+        "INSERT INTO `npt` (`medical_id`, `message`) VALUES(?, ?)",
         [req.params.id, req.body.message]
       );
 
@@ -169,6 +169,30 @@ router.post("/note/npt/:id", async function (req, res, next) {
 router.delete("/note/ct/:noteId", async function (req, res, next) {
   try {
     await pool.query("DELETE FROM `ct` WHERE id =? ", [req.params.noteId]);
+    res.json({ id: req.params.noteId });
+  } catch (err) {
+    return res.json(err);
+  }
+});
+router.delete("/note/npt/:noteId", async function (req, res, next) {
+  try {
+    await pool.query("DELETE FROM `npt` WHERE id =? ", [req.params.noteId]);
+    res.json({ id: req.params.noteId });
+  } catch (err) {
+    return res.json(err);
+  }
+});
+router.delete("/note/tdt/:noteId", async function (req, res, next) {
+  try {
+    await pool.query("DELETE FROM `tdt` WHERE id =? ", [req.params.noteId]);
+    res.json({ id: req.params.noteId });
+  } catch (err) {
+    return res.json(err);
+  }
+});
+router.delete("/note/ipt/:noteId", async function (req, res, next) {
+  try {
+    await pool.query("DELETE FROM `ipt` WHERE id =? ", [req.params.noteId]);
     res.json({ id: req.params.noteId });
   } catch (err) {
     return res.json(err);

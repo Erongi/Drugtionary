@@ -61,7 +61,7 @@ router.post(
       const group = req.body.group;
       const type = req.body.type;
       const properties = req.body.properties;
-      const pg = req.body.pg;
+      const patient_group = req.body.pg;
       const pattern = req.body.pattern;
 
       const conn = await pool.getConnection();
@@ -71,8 +71,16 @@ router.post(
       try {
         console.log(file.path.substr(6));
         await conn.query(
-          "INSERT INTO drugs(`name`, `group`, `type`, `properties`, `pg`, `pattern`, `image`) VALUES(?, ?, ?, ?, ?, ?, ?);",
-          [name, group, type, properties, pg, pattern, file.path.substr(6)]
+          "INSERT INTO drugs(`name`, `group`, `type`, `properties`, `patient_group`, `pattern`, `image`) VALUES(?, ?, ?, ?, ?, ?, ?);",
+          [
+            name,
+            group,
+            type,
+            properties,
+            patient_group,
+            pattern,
+            file.path.substr(6),
+          ]
         );
         await conn.commit();
         res.send("add drug success!");

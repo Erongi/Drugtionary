@@ -3,7 +3,7 @@
     <div class="field is-grouped">
       <p class="control pr-6">
         <router-link to="/addDrug">
-          <a class="button is-primary">+ Add drug </a>
+          <a class="button is-primary">+ เพิ่มยา </a>
         </router-link>
       </p>
       <p class="control is-expanded">
@@ -15,10 +15,10 @@
         />
       </p>
       <p class="control">
-        <a class="button is-info" @click="getDrugs"> Search </a>
+        <a class="button is-info" @click="getDrugs"> ค้นหา </a>
       </p>
     </div>
-    <h1 class="is-size-4 mb-4">All drugs ({{ drugs.length }})</h1>
+    <h1 class="is-size-4 mb-4">ยาทั้งหมด ({{ drugs.length }})</h1>
     <div id="style-1" class="scroll-bar mt-6">
       <div class="container">
         <div class="is-multiline columns is-variable is-5">

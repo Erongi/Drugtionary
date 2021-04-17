@@ -25,7 +25,7 @@ CREATE TABLE `drugs` (
   `group` varchar(200) NOT NULL,
   `type` varchar(200) NOT NULL,
   `properties` varchar(200) NOT NULL,
-  `pg` varchar(200) NOT NULL,
+  `patient_group` varchar(200) NOT NULL,
   `pattern` varchar(200) NOT NULL,
   `image` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
@@ -36,7 +36,7 @@ CREATE TABLE `drugs` (
 DROP TABLE IF EXISTS `NPT`;
 CREATE TABLE `NPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `medical_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -45,7 +45,7 @@ CREATE TABLE `NPT` (
 DROP TABLE IF EXISTS `TDT`;
 CREATE TABLE `TDT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `medical_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -55,7 +55,7 @@ CREATE TABLE `TDT` (
 DROP TABLE IF EXISTS `IPT`;
 CREATE TABLE `IPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `medical_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -64,7 +64,7 @@ CREATE TABLE `IPT` (
 DROP TABLE IF EXISTS `CT`;
 CREATE TABLE `CT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
+  `medical_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -73,9 +73,13 @@ CREATE TABLE `CT` (
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE `history` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `userId` int(11) NOT NULL,
-  `description` text NOT NULL,
-  `comment_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `patient_id` bigint(20) NOT NULL,
+  `drug_id` bigint(20) NOT NULL,
+  `drug_name` varchar(200) NOT NULL,
+  `date` varchar(200) NOT NULL,
+  `time` varchar(200) NOT NULL,
+  `amount` varchar(200) NOT NULL,
+  `type` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
@@ -88,6 +92,7 @@ CREATE TABLE `patients` (
   `age` int(11) NOT NULL,
   `image` varchar(200) NOT NULL,
   `symptom` varchar(200) NOT NULL,
+  `medical_id` bigint(20),
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -99,18 +104,22 @@ CREATE TABLE `medicals` (
   `gender` enum('ชาย','หญิง') NOT NULL,
   `age` int(11) NOT NULL,
   `image` varchar(200) NOT NULL,
-  `specialist` varchar(200) NOT NULL,
+  `position` varchar(200) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-INSERT INTO `patients` (`id`, `name`, `gender`, `age`, `image`, `symptom`) VALUES
-('1', 'พัสกร อรุณสดใส', 'ชาย', '20', 'https://randomuser.me/api/portraits/women/1.jpg', 'เผ็ด'),
-('2', 'วรนิช วรนุช', 'หญิง', '15', 'https://randomuser.me/api/portraits/women/12.jpg', 'หวาน');
+INSERT INTO `patients` (`id`, `name`, `gender`, `age`, `image`, `symptom`, `medical_id`) VALUES
+('1', 'พัสกร อรุณสดใส', 'ชาย', '20', 'https://randomuser.me/api/portraits/women/1.jpg', 'เผ็ด', NULL),
+('2', 'วรนิช วรนุช', 'หญิง', '15', 'https://randomuser.me/api/portraits/women/12.jpg', 'หวาน', NULL);
 
-INSERT INTO `drugs` (`id`, `name`, `group`, `type`, `properties`, `pg`,`image`, `pattern`) VALUES
+
+INSERT INTO `medicals` (`id`, `name`, `gender`, `age`, `image`, `position`, `description`) VALUES
+('1', 'พญ.วันวิสาข์ ตันศิริเจริญกุล', 'ชาย', '40', 'https://i.pinimg.com/736x/6b/eb/5d/6beb5d8607e0a9bb2e3d5b82b09cbfe1.jpg', 'รองผู้อำนวยการโรงพยาบาลฌชนต์ราราช', 'Doctor of Medicine, Faculty of Medicine, Chiang Mai University. Certificate of Orthopedic surgery, Faculty of Medicine, Chiang Mai University. Fellowship in Bone and Soft tissue Tumour, Mayo Clinic, USA, 2005 Master degree of Biomedical Science in clinical research, Mayo Graduated School, Rochester, Minnesota, USA, 2005 Clinical Visitor in Joint Replacement Surgery for Hip and Knee, Western Ontario University, Canada, 2006 Master of Business Administration, Payap University, 2009'),
+
+INSERT INTO `drugs` (`id`, `name`, `group`, `type`, `properties`, `patient_group`,`image`, `pattern`) VALUES
 ('1', 'Abilify', 'ยาระงับอาการทางจิต', 'ยาตามใบสั่งแพทย์', 'รักษาโรคจิตเภท โรคไบโพลาร์ โรคซึมเศร้า กลุ่มอาการทูเร็ตต์','เด็กและผู้ใหญ่', 'drugs/Abilify.jpg', 'ยารับประทาน ยาฉีด'),
 ('2', 'Erythromycin', 'ยาปฏิชีวนะในกลุ่มแมคโครไลน์', 'ยาตามใบสั่งแพทย์', 'รักษาหรือป้องกันการติดเชื้อจากแบคทีเรีย','เด็กและผู้ใหญ่', 'drugs/Erythromycin.jpg', 'ยารับประทานชนิดแคปซูล ชนิดเม็ด ยาแขวนตะกอน ยาป้ายตา และยาฉีด');
 

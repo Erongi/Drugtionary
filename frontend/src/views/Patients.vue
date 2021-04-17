@@ -1,9 +1,9 @@
 <template>
   <div class="is-10 pt-6" style="margin-left: 5%">
     <div class="field is-grouped">
-      <p class="control pr-6">
+      <!-- <p class="control pr-6">
         <a class="button is-primary">+ Add Patient </a>
-      </p>
+      </p> -->
       <p class="control is-expanded">
         <input
           class="input"
@@ -13,10 +13,10 @@
         />
       </p>
       <p class="control">
-        <a class="button is-info" @click="getPatients"> Search </a>
+        <a class="button is-info" @click="getPatients"> ค้นหา </a>
       </p>
     </div>
-    <h1 class="is-size-4 mb-4">All patients ({{ patients.length }})</h1>
+    <h1 class="is-size-4 mb-4">คนไข้ทั้งหมด ({{ patients.length }})</h1>
     <div id="style-1" class="scroll-bar mt-6">
       <div class="container">
         <div class="is-multiline columns is-variable is-5">

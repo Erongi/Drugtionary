@@ -11,19 +11,19 @@
       <div class="column is-2">
         <!-- <div class="has-text-centered title">Menu</div> -->
         <div class="container-menu subtitle">
-          <router-link to="/">Home</router-link>
+          <router-link to="/">หน้าแรก</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/patients">Patient</router-link>
+          <router-link to="/patients">คนไข้</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/drugs">Drug</router-link>
+          <router-link to="/drugs">ยา</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/note/1">Note</router-link>
+          <router-link to="/note/1">บันทึก</router-link>
         </div>
         <div class="container-menu subtitle">
-          <router-link to="/profile">Profile</router-link>
+          <router-link to="/profile">โปรไฟล์</router-link>
         </div>
       </div>
 
