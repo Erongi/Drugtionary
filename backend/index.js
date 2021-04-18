@@ -15,11 +15,13 @@ const patientRouter = require("./routes/patient");
 const drugRouter = require("./routes/drug");
 const noteRouter = require("./routes/note");
 const medicalRouter = require("./routes/medical");
+const historyRouter = require("./routes/history");
 
 app.use(patientRouter.router);
 app.use(drugRouter.router);
 app.use(noteRouter.router);
 app.use(medicalRouter.router);
+app.use(historyRouter.router);
 
 app.listen(3000, () => {
   console.log(`Example app listening at http://localhost:3000`);

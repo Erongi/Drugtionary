@@ -4,50 +4,171 @@
       <div class="card">
         <div class="card-image">
           <figure class="image is-1by1">
-            <img
-              src="https://th.bing.com/th/id/OIP.1pVGxYSJ7fsmFriHE6M-igHaFL?w=250&h=180&c=7&o=5&dpr=1.25&pid=1.7"
-              alt="Placeholder image"
-            />
+            <img :src="imagePath(drug.image)" alt="Placeholder image" />
           </figure>
         </div>
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title is-4">ยา: Abacavir</p>
+              <p class="title is-4">ยา: {{ drug.name }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="column box pt-5">
-      <div class="box"><p>กลุ่มยา: ยาต้านไวรัส</p></div>
       <div class="box">
-        <p>คุณสมบัติ: ช่วยลดจำนวนเชื้อเอชไอวีในร่างกายของผู้ป่วยที่ติดเชื้อ</p>
+        <p>กลุ่มยา: {{ drug.group }}</p>
       </div>
-      <div class="box"><p>ประเภทยา: ยาตามใบสั่งแพทย์</p></div>
-      <div class="box"><p>กลุ่มผู้ป่วย: ยาตามใบสั่งแพทย์</p></div>
-      <div class="box"><p>รูปแบบของยา: ยารับประทาน</p></div>
+      <div class="box">
+        <p>คุณสมบัติ: {{ drug.properties }}</p>
+      </div>
+      <div class="box">
+        <p>ประเภทยา: {{ drug.type }}</p>
+      </div>
+      <div class="box">
+        <p>กลุ่มผู้ป่วย: {{ drug.patient_group }}</p>
+      </div>
+      <div class="box">
+        <p>รูปแบบของยา: {{ drug.pattern }}</p>
+      </div>
 
       <div class="columns">
         <div class="column is-10"></div>
         <div class="column is-2 mt-5">
-          <button class="button is-success">Add</button>
+          <button class="button is-success" @click="AddModal = true">
+            เพิ่มยา
+          </button>
         </div>
+      </div>
+    </div>
+
+    <!-- modal -->
+    <div class="modal" :class="{ 'is-active': AddModal }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">{{ drug.name }}</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="cancelModal"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+          <div class="columns">
+            <div class="column is-4">
+              <div class="field">
+                <div class="control ml-6">
+                  <p>จำนวน</p>
+                  <input
+                    class="input"
+                    type="number"
+                    placeholder="จำนวน"
+                    v-model="amount"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="field">
+                <div class="control">
+                  <p>วันที่รับประทาน</p>
+                  <input
+                    class="button"
+                    placeholder="Due date"
+                    type="date"
+                    v-model="date"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="field">
+                <div class="control">
+                  <p>เวลารับประทาน</p>
+                  <input
+                    class="button"
+                    type="time"
+                    id="appt"
+                    name="appt"
+                    v-model="time"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" @click="addDrug">เพิ่มยา</button>
+          <button class="button" @click="cancelModal">ยกเลิก</button>
+        </footer>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
+import axios from "axios";
 export default {
-  created() {
-    this.id = this.$route.params.id;
+  mounted() {
+    this.getDrugDetail(this.$route.params.id);
   },
   data() {
     return {
       id: null,
+      drug: {},
+      AddModal: false,
+      date: "",
+      time: "",
+      amount: "",
     };
+  },
+  methods: {
+    getDrugDetail(id) {
+      axios
+        .get(`http://localhost:3000/drug/${id}`)
+        .then((response) => {
+          this.drug = response.data.drug;
+          this.id = id;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    imagePath(file_path) {
+      if (file_path) {
+        return "http://localhost:3000/" + file_path;
+      } else {
+        return "https://bulma.io/images/placeholders/640x360.png";
+      }
+    },
+    cancelModal() {
+      this.AddModal = false;
+      this.date = "";
+      this.time = "";
+      this.amount = "";
+    },
+    addDrug() {
+      axios
+        .post(`http://localhost:3000/history/${this.id}`, {
+          drug_name: this.drug.name,
+          date: this.date,
+          time: this.time,
+          amount: this.amount,
+          type: this.drug.type,
+        })
+        .then((response) => {
+          this.AddModal = false;
+          this.date = "";
+          this.time = "";
+          this.amount = "";
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
   },
 };
 </script>

@@ -41,7 +41,7 @@ router.get("/drug/:id", async function (req, res, next) {
     const [rows, fields] = await pool.query("SELECT * FROM drugs WHERE id=?", [
       req.params.id,
     ]);
-    return res.json(rows);
+    return res.json({ drug: rows[0] });
   } catch (err) {
     return res.status(500).json(err);
   }
