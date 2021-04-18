@@ -2,9 +2,8 @@
   <div>
     <div class="navbar-brand fit-12">
       <router-link to="/">
-        <img src="./assets/logo.png" width="50" height="10"
+        <img class="ml-5 mt-2" src="./assets/logo.png" width="50%"
       /></router-link>
-      <h3>Drugtionary</h3>
     </div>
     <span class="line" />
     <div class="columns">

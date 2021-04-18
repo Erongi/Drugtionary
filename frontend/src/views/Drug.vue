@@ -146,9 +146,9 @@ export default {
     },
     cancelModal() {
       this.AddModal = false;
+      this.amount = null;
       this.date = "";
       this.time = "";
-      this.amount = "";
     },
     addDrug() {
       axios
