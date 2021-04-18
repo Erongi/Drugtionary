@@ -60,7 +60,7 @@
           <div class="columns">
             <div class="column is-4">
               <div class="field">
-                <div class="control ml-6">
+                <div class="control mx-6">
                   <p>จำนวน</p>
                   <input
                     class="input"
@@ -75,12 +75,18 @@
               <div class="field">
                 <div class="control">
                   <p>วันที่รับประทาน</p>
-                  <input
-                    class="button"
-                    placeholder="Due date"
-                    type="date"
-                    v-model="date"
-                  />
+                  <div class="select">
+                    <select v-model="date">
+                      <option value="" disabled selected>--เลือกวัน--</option>
+                      <option value="วันอาทิตย์">วันอาทิตย์</option>
+                      <option value="วันจันทร์">วันจันทร์</option>
+                      <option value="วันอังคาร">วันอังคาร</option>
+                      <option value="วันพุธ">วันพุธ</option>
+                      <option value="วันพฤหัสบดี">วันพฤหัสบดี</option>
+                      <option value="วันศุกร์">วันศุกร์</option>
+                      <option value="วันเสาร์">วันเสาร์</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
