@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="task">
-      <p class="mb-5 subtitle">Non Priority Tasks</p>
+      <p class="mb-5 subtitle">คนไข้ทั่วไป</p>
 
       <div class="sub_task" v-for="task in note.npt" :key="task.id">
         {{ task.message }}
@@ -43,7 +43,7 @@
     </div>
 
     <div class="task">
-      <p class="mb-5">To-Do Tasks</p>
+      <p class="mb-5 subtitle">คนไข้ที่ต้องดูแล</p>
       <div class="sub_task" v-for="task in note.tdt" :key="task.id">
         {{ task.message }}
         <div class="level-right mr-3">
@@ -83,7 +83,7 @@
     </div>
 
     <div class="task">
-      <p class="mb-5">In Progress Tasks</p>
+      <p class="mb-5 subtitle">คนไข้ที่ดูแลอยู่</p>
       <div class="sub_task" v-for="task in note.ipt" :key="task.id">
         {{ task.message }}
         <div class="level-right mr-3">
@@ -123,7 +123,7 @@
     </div>
 
     <div class="task">
-      <p class="mb-5">Complete Tasks</p>
+      <p class="mb-5 subtitle">การจัดยาคนไข้</p>
       <div class="sub_task" v-for="task in note.ct" :key="'ct' + task.id">
         {{ task.message }}
         <div class="level-right mr-3">
