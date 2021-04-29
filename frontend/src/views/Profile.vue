@@ -11,7 +11,7 @@
 
         <div class="detailpf">
           <div>
-            <p class="styletxt mt-6" style="margin-top: 2%">
+            <p class="styletxt" >
               <b style="display: grid; text-align: center">
                 {{ medical.name }} <br />
                 <!-- Dr.Wanwisa Tansiricharernkul (Dr.Lin) -->
@@ -34,7 +34,9 @@
               <th class="font">คนไข้ที่ดูแล</th>
               <tr>
                 <li v-for="patient in patients" :key="patient.id">
-                  {{ patient.name }}
+                  {{ patient.name }} 
+                  อายุ {{ patient.age }} 
+                  เพศ {{ patient.gender }}
                 </li>
               </tr>
             </thead>
@@ -86,8 +88,8 @@ export default {
 .picprofile {
   background-color: rgb(255, 255, 255);
   width: 50%;
-  height: 810px;
-  margin: 5px;
+  height: 100%;
+  margin: 1%;
   border-radius: 25px;
   display: grid;
   /* justify-content: center; */
@@ -96,16 +98,18 @@ export default {
 .picprofile2 {
   background-color: rgb(255, 255, 255);
   width: 50%;
-  height: 99%;
-  margin: 5px;
+  height: 98%;
+  margin: 1%;
   border-radius: 25px;
 }
 .detailpf {
   background-color: rgb(255, 255, 255);
   width: 98.5%;
-  height: 484px;
-  margin-top: 2%;
+  height: 100%;
+  margin-top: 20%;
+  margin-bottom: 10%;
   margin-left: 5px;
+  border-radius: 25px;
   color: black;
 }
 .styletxt {
@@ -113,6 +117,7 @@ export default {
   max-width: 80%;
   margin-left: 10%;
   text-align: start;
+  height: 50%;
   /* word-break: break-all; */
 }
 .table {
@@ -120,9 +125,9 @@ export default {
   border-radius: 2%;
 }
 .picprofile3 {
-  width: auto;
-  height: 300px;
-  margin: 5px;
+  width: 70%;
+  /* height: 0%; */
+  /* margin: 5px; */
   border-radius: 25px;
 }
 .name {

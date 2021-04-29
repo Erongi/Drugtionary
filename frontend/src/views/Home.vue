@@ -1,33 +1,39 @@
 <template>
   <div>
-    <div class="font">DRUG<br />TIONARY</div>
-    <div class="detail1">
-      detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail
-      ย่อหน้าไม่เป็น Bitch!!!!
+    <div class="background">
+      <div class="text">
+        <h1 class="header">
+          DRUGTIONARY
+        </h1> 
+        <h3 class="font">
+          เว็บไซด์นี้จัดทำขึ้นมีจุดประสงค์ในการจัดทำ เพื่อให้แพทย์ และเภสัชกรณ์ สามาถเข้าดูรายการของยาต่างๆได้ ซึ่งหลายๆครั้งที่แพทย์ และเภสัชกรณ์ ต้องคอยหาข้อมูล หรือสอบถามข้อมูลเกี่ยวกับยาจากผู้อื่น 
+          เราจึงได้นำมาเป็นหัวข้อในการศึกษาเพื่อประกอบกับเนื้อหาที่มีความสนใจ <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </h3>
+      </div>
     </div>
-
-    <div class="font">Title<br />2</div>
-    <div class="detail1">
-      detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail
-      ย่อหน้าไม่เป็น Bitch!!!!
-    </div>
-
-    <div class="font">Title<br />3</div>
-    <div class="detail1">
-      detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail
-      ย่อหน้าไม่เป็น Bitch!!!!
-    </div>
-
-    <div class="font">Title<br />4</div>
-    <div class="detail1">
-      detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail
-      ย่อหน้าไม่เป็น Bitch!!!!
-    </div>
-
-    <div class="font">Title<br />5</div>
-    <div class="detail1">
-      detaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetaildetail
-      ย่อหน้าไม่เป็น Bitch!!!!
+    <div class="row"> 
+      <div class="column">
+        <h4>Pages</h4>
+        <i>
+          <a href="./">หน้าแรก</a><br>
+          <a href="./patients">คนไข้</a><br>
+          <a href="./drugs">ยา</a><br>
+          <a href="./note/1">บันทึก</a><br>
+          <a href="./profile/">โปรไฟล์</a>
+        </i>
+      </div>
+      <div class="column">
+        <h4>Member</h4>
+        <p>61070044</p>
+        <p>61070141</p>
+        <p>61070213</p>
+      </div>
+      <div class="column">
+        <h4>This project</h4>
+        <p>Part of Web Programming class
+          KMITL Faculty of Information Technology</p>
+        <p>Copyright ©2021 Allright reserved</p>
+      </div>
     </div>
   </div>
 </template>
@@ -46,24 +52,39 @@ export default {
 </script>
 
 <style scoped>
-.font {
-  font-family: "Zen Dots", cursive;
-  font-size: 400%;
-  margin-top: 60px;
-  margin-left: 60px;
-  background-color: rgb(255, 255, 255);
-  width: 45%;
-  height: 25%;
+.header {
+  text-align: center;
+  position: initial;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 500%;
+  margin-top: 1%;
+  margin-left: 3%;
 }
-.detail1 {
-  background-color: rgb(236, 236, 236);
-  width: 90%;
-  height: 300px;
-  margin-top: -80px;
-  margin-left: 150px;
-  border-radius: 25px;
-  word-break: break-all;
-  font-family: "Zen Dots", cursive;
-  font-size: 150%;
+.text {
+  margin: 2%;
+}
+.font {
+  margin-top: 20%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+.background {
+  background-image: url("../assets/pic.png");
+  margin-left: 5%;
+  background-size: 105%;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  position: relative; 
+}
+.column {
+  float: left;
+  width: 33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 </style>
