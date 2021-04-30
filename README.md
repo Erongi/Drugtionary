@@ -3,6 +3,7 @@
 ## Start Backend Server
 ```
 $ npm install express
+$ npm install joi bcrypt
 $ cd backend
 $ npm run serve
 ```
@@ -11,6 +12,7 @@ $ npm run serve
 ```
 $ npm install @vue/cli
 $ npm install bulma axios vue-router
+$ npm install vuelidate
 $ cd frontend
 $ npm run serve
 ```
