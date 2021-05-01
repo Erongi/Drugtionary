@@ -36,7 +36,7 @@ CREATE TABLE `drugs` (
 DROP TABLE IF EXISTS `NPT`;
 CREATE TABLE `NPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `medical_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -45,7 +45,7 @@ CREATE TABLE `NPT` (
 DROP TABLE IF EXISTS `TDT`;
 CREATE TABLE `TDT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `medical_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -55,7 +55,7 @@ CREATE TABLE `TDT` (
 DROP TABLE IF EXISTS `IPT`;
 CREATE TABLE `IPT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `medical_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -64,7 +64,7 @@ CREATE TABLE `IPT` (
 DROP TABLE IF EXISTS `CT`;
 CREATE TABLE `CT` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `medical_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)

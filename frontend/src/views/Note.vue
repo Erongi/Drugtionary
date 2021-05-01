@@ -170,8 +170,12 @@
 <script>
 import axios from "@/plugins/axios";
 export default {
+  props: ["user"],
   mounted() {
     this.getNote(this.$route.params.id);
+    if (this.$route.params.id != this.user.id) {
+      this.$router.push({ path: "/" });
+    }
   },
   data() {
     return {
