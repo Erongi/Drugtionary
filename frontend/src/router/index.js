@@ -42,12 +42,18 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
+    meta: { login: true },
     component: () => import("../views/Profile.vue") // set profile as path '/'
   },
   {
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue") // set login as path '/'
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: () => import("../views/Signup.vue") // set Signup as path '/'
   }
 ];
 
@@ -55,6 +61,22 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  if (to.meta.login && !isLoggedIn) {
+    alert("Please login first!");
+    next({ path: "/login" });
+  }
+
+  if (to.meta.guess && isLoggedIn) {
+    alert("You've already logged in");
+    next({ path: "/" });
+  }
+
+  next();
 });
 
 export default router;

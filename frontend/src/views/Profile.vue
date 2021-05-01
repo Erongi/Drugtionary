@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="background">
     <div class="columns ml-6">
       <div class="picprofile">
         <div class="picprofile3">
@@ -11,17 +11,25 @@
 
         <div class="detailpf">
           <div>
-            <p class="styletxt" >
+            <p class="styletxt">
               <b style="display: grid; text-align: center">
-                {{ medical.name }} <br />
+                {{ user.first_name }} {{ user.last_name }}<br />
+                <!-- Dr.Wanwisa Tansiricharernkul (Dr.Lin) -->
+              </b>
+              <b
+                v-if="user.role != 'patient'"
+                style="display: grid; text-align: center"
+              >
+                Dr .{{ user.first_name }} {{ user.last_name }}<br />
+
                 <!-- Dr.Wanwisa Tansiricharernkul (Dr.Lin) -->
               </b>
               <br />
-              <b>ตำ</b>แหน่ง : {{ medical.position }}
+              <b>ตำ</b>แหน่ง : {{ user.gender }}
 
               <br /><br />
 
-              {{ medical.description }}
+              {{ user.description }}
             </p>
           </div>
         </div>
@@ -34,9 +42,8 @@
               <th class="font">คนไข้ที่ดูแล</th>
               <tr>
                 <li v-for="patient in patients" :key="patient.id">
-                  {{ patient.name }} 
-                  อายุ {{ patient.age }} 
-                  เพศ {{ patient.gender }}
+                  {{ patient.name }}
+                  อายุ {{ patient.age }} เพศ {{ patient.gender }}
                 </li>
               </tr>
             </thead>
@@ -48,8 +55,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
+  props: ["user"],
   mounted() {
     this.getProfile(1);
   },
@@ -63,7 +71,7 @@ export default {
   methods: {
     getProfile(id) {
       axios
-        .get(`http://localhost:3000/medical/${id}`)
+        .get(`/medical/${id}`)
         .then((response) => {
           this.medical = response.data.medical;
           this.patients = response.data.patients;
@@ -142,5 +150,13 @@ export default {
 }
 .font {
   font-size: 120%;
+}
+.background {
+  background-image: url("../assets/pic.png");
+  margin-left: 5%;
+  background-size: 105%;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  position: relative;
 }
 </style>

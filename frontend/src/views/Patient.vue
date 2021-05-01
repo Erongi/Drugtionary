@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-image">
           <figure class="image is-1by1">
-            <img :src="patients.image" alt="Placeholder image" />
+            <img :src="imagePath(patient.picture)" alt="Placeholder image" />
           </figure>
         </div>
         <div class="card-content">
@@ -32,10 +32,10 @@
       </div>
     </div>
     <div class="column">
-      <p><b>ชื่อ: </b>{{ patients.name }}</p>
-      <p><b>อายุ: </b>{{ patients.age }}</p>
-      <p><b>เพศ: </b>{{ patients.gender }}</p>
-      <p><b>อาการ: </b>{{ patients.symptom }}</p>
+      <p><b>ชื่อ: </b>{{ patient.first_name }}</p>
+      <p><b>อายุ: </b>{{ patient.age }}</p>
+      <p><b>เพศ: </b>{{ patient.gender }}</p>
+      <p><b>อาการ: </b>{{ patient.picture }}</p>
       <div class="columns mt-5">
         <div class="column">
           <p>ยาที่รับประทาน</p>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
   mounted() {
     this.getPatientDetail(this.$route.params.id);
@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       id: null,
-      patients: {},
+      patient: {},
       history: [],
       medical: null,
     };
@@ -84,13 +84,12 @@ export default {
   methods: {
     getPatientDetail(id) {
       axios
-        .get(`http://localhost:3000/patient/${id}`)
+        .get(`/patient/${id}`)
         .then((response) => {
-          this.patients = response.data.patients;
+          this.patient = response.data.patients;
           this.history = response.data.history;
           this.id = id;
           this.getMedical(this.patients.medical_id);
-          console.log(this.medical);
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -98,7 +97,7 @@ export default {
     },
     getMedical(id) {
       axios
-        .get(`http://localhost:3000/medical/${id}`)
+        .get(`/medical/${id}`)
         .then((response) => {
           this.medical = response.data.medical;
         })
@@ -108,7 +107,7 @@ export default {
     },
     addPatient() {
       axios
-        .put(`http://localhost:3000/patient/pair/${this.id}`)
+        .put(`/patient/pair/${this.id}`)
         .then((response) => {
           this.medical = response.data.medical;
         })
@@ -118,13 +117,20 @@ export default {
     },
     delPatient() {
       axios
-        .put(`http://localhost:3000/patient/delPair/${this.id}`)
+        .put(`/patient/delPair/${this.id}`)
         .then((response) => {
           this.medical = null;
         })
         .catch((error) => {
           this.error = error.response.data.message;
         });
+    },
+    imagePath(file_path) {
+      if (file_path) {
+        return "http://localhost:3000/" + file_path;
+      } else {
+        return "https://bulma.io/images/placeholders/640x360.png";
+      }
     },
   },
 };

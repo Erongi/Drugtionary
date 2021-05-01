@@ -4,6 +4,31 @@
       <router-link to="/">
         <img class="ml-5 mt-2" src="./assets/logo.png" width="50%"
       /></router-link>
+      <div class="navbar-end">
+        <div v-if="user" class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <figure class="image is-24x24 my-auto">
+              <img class="is-rounded" :src="imagePath(user.picture)" />
+            </figure>
+            <span class="pl-3">{{ user.first_name }} {{ user.last_name }}</span>
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item">Profile</a>
+            <a class="navbar-item" @click="logout">Log out</a>
+          </div>
+        </div>
+
+        <div v-if="!user" class="navbar-item">
+          <router-link to="/login">
+            <strong>Login</strong>
+          </router-link>
+        </div>
+        <div v-if="!user" class="navbar-item">
+          <router-link to="/signup">
+            <strong>Signup</strong>
+          </router-link>
+        </div>
+      </div>
     </div>
     <span class="line" />
     <div class="columns">
@@ -18,24 +43,65 @@
         <div class="container-menu subtitle">
           <router-link to="/drugs">ยา</router-link>
         </div>
-        <div class="container-menu subtitle">
-          <router-link to="/note/1">บันทึก</router-link>
+        <div v-if="user" class="container-menu subtitle">
+          <router-link :to="`/note/${user.id}`">บันทึก</router-link>
         </div>
-        <div class="container-menu subtitle">
+        <div v-if="user" class="container-menu subtitle">
           <router-link to="/profile">โปรไฟล์</router-link>
         </div>
       </div>
 
       <div class="vl" style="margin-top: 16px"></div>
 
-      <div class="column is-9"><router-view /></div>
+      <div class="column is-9">
+        <router-view
+          :key="$route.fullPath"
+          @auth-change="onAuthChange"
+          :user="user"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "@/plugins/axios";
 export default {
   name: "App",
+  data() {
+    return {
+      user: null,
+    };
+  },
+  mounted() {
+    this.onAuthChange();
+  },
+  methods: {
+    onAuthChange() {
+      const token = localStorage.getItem("token");
+      if (token) {
+        this.getUser();
+      }
+    },
+    getUser() {
+      axios.get("/user/me").then((res) => {
+        this.user = res.data;
+        console.log(this.user);
+      });
+    },
+    imagePath(file_path) {
+      if (file_path) {
+        return "http://localhost:3000/" + file_path;
+      } else {
+        return "https://bulma.io/images/placeholders/640x360.png";
+      }
+    },
+    logout() {
+      localStorage.clear();
+      this.user = null;
+      this.$router.push({ path: "/" });
+    },
+  },
 };
 </script>
 

@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
   mounted() {
     this.getDrugDetail(this.$route.params.id);
@@ -134,7 +134,7 @@ export default {
   methods: {
     getDrugDetail(id) {
       axios
-        .get(`http://localhost:3000/drug/${id}`)
+        .get(`/drug/${id}`)
         .then((response) => {
           this.drug = response.data.drug;
           this.id = id;
@@ -158,7 +158,7 @@ export default {
     },
     addDrug() {
       axios
-        .post(`http://localhost:3000/history/${this.id}`, {
+        .post(`/history/${this.id}`, {
           drug_name: this.drug.name,
           date: this.date,
           time: this.time,

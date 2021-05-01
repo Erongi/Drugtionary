@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
   mounted() {
     this.getNote(this.$route.params.id);
@@ -190,7 +190,7 @@ export default {
   methods: {
     getNote(id) {
       axios
-        .get(`http://localhost:3000/note/${id}`)
+        .get(`/note/${id}`)
         .then((response) => {
           this.note = response.data;
           this.id = this.$route.params.id;
@@ -201,7 +201,7 @@ export default {
     },
     addCT() {
       axios
-        .post(`http://localhost:3000/note/ct/${this.id}`, {
+        .post(`/note/ct/${this.id}`, {
           message: this.ctText,
         })
         .then((response) => {
@@ -215,7 +215,7 @@ export default {
     },
     addIPT() {
       axios
-        .post(`http://localhost:3000/note/ipt/${this.id}`, {
+        .post(`/note/ipt/${this.id}`, {
           message: this.iptText,
         })
         .then((response) => {
@@ -229,7 +229,7 @@ export default {
     },
     addNPT() {
       axios
-        .post(`http://localhost:3000/note/npt/${this.id}`, {
+        .post(`/note/npt/${this.id}`, {
           message: this.nptText,
         })
         .then((response) => {
@@ -243,7 +243,7 @@ export default {
     },
     addTDT() {
       axios
-        .post(`http://localhost:3000/note/tdt/${this.id}`, {
+        .post(`/note/tdt/${this.id}`, {
           message: this.tdtText,
         })
         .then((response) => {
@@ -257,7 +257,7 @@ export default {
     },
     delTaskNPT(id) {
       axios
-        .delete(`http://localhost:3000/note/npt/${id}`)
+        .delete(`/note/npt/${id}`)
         .then((response) => {
           this.note.npt = this.note.npt.filter((e) => e.id != id);
         })
@@ -268,7 +268,7 @@ export default {
     },
     delTaskCT(id) {
       axios
-        .delete(`http://localhost:3000/note/ct/${id}`)
+        .delete(`/note/ct/${id}`)
         .then((response) => {
           this.note.ct = this.note.ct.filter((e) => e.id != id);
         })
@@ -279,7 +279,7 @@ export default {
     },
     delTaskIPT(id) {
       axios
-        .delete(`http://localhost:3000/note/ipt/${id}`)
+        .delete(`/note/ipt/${id}`)
         .then((response) => {
           this.note.ipt = this.note.ipt.filter((e) => e.id != id);
         })
@@ -290,7 +290,7 @@ export default {
     },
     delTaskTDT(id) {
       axios
-        .delete(`http://localhost:3000/note/tdt/${id}`)
+        .delete(`/note/tdt/${id}`)
         .then((response) => {
           this.note.tdt = this.note.tdt.filter((e) => e.id != id);
         })

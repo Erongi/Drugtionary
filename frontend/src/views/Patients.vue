@@ -1,5 +1,5 @@
 <template>
-  <div class="is-10 pt-6" style="margin-left: 5%">
+  <div class="is-10 pt-6 background" style="margin-left: 5%">
     <div class="field is-grouped">
       <!-- <p class="control pr-6">
         <a class="button is-primary">+ Add Patient </a>
@@ -31,13 +31,18 @@
               <div class="card">
                 <div class="card-image">
                   <figure class="image is-1by1">
-                    <img :src="patient.image" alt="Placeholder image" />
+                    <img
+                      :src="imagePath(patient.picture)"
+                      alt="Placeholder image"
+                    />
                   </figure>
                 </div>
                 <div class="card-content">
                   <div class="media">
                     <div class="media-content">
-                      <p class="title is-8">{{ patient.name }}</p>
+                      <p class="title is-8">
+                        {{ patient.first_name }} {{ patient.last_name }}
+                      </p>
                       <p class="is-6">อายุ : {{ patient.age }}</p>
                       <p class="is-6">เพศ : {{ patient.gender }}</p>
                       <p class="is-6">อาการ : {{ patient.symptom }}</p>
@@ -54,7 +59,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
   mounted() {
     this.getPatients();
@@ -68,7 +73,7 @@ export default {
   methods: {
     getPatients() {
       axios
-        .get("http://localhost:3000/patients", {
+        .get("/patients", {
           params: {
             search: this.search,
           },
@@ -77,7 +82,7 @@ export default {
           this.patients = response.data;
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
         });
     },
     imagePath(file_path) {
@@ -119,5 +124,13 @@ export default {
   padding: 5px;
   margin: 0;
   height: calc(75vh - 90px);
+}
+.background {
+  background-image: url("../assets/pic.png");
+  margin-left: 5%;
+  background-size: 105%;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  position: relative;
 }
 </style>

@@ -23,11 +23,12 @@ const upload = multer({ storage: storage });
 router.get("/patients", async function (req, res, next) {
   try {
     const search = req.query.search || "";
-    let sql = "SELECT * FROM `patients`";
+    let sql = "SELECT * FROM `users` WHERE `role`= 'patient'";
     let cond = [];
     if (search.length > 0) {
-      sql = "SELECT * FROM `patients` WHERE name LIKE ? ;";
-      cond = [`%${search}%`];
+      sql =
+        "SELECT * FROM `users` WHERE `role`= 'patient' AND (`first_name` LIKE ? OR `last_name` LIKE ?) ;";
+      cond = [`%${search}%`, `%${search}%`];
     }
     const [rows, fields] = await pool.query(sql, cond);
     return res.json(rows);
@@ -38,7 +39,7 @@ router.get("/patients", async function (req, res, next) {
 
 router.get("/patient/:id", function (req, res, next) {
   // Query data from 3 tables
-  const promise1 = pool.query("SELECT * FROM patients WHERE id=?", [
+  const promise1 = pool.query("SELECT * FROM users WHERE id=?", [
     req.params.id,
   ]);
   const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [

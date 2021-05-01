@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 
 export default {
   data() {
@@ -167,7 +167,7 @@ export default {
       formData.append("pattern", this.pattern);
       formData.append("myImage", this.images[0]);
       axios
-        .post("http://localhost:3000/drugs", formData)
+        .post("/drugs", formData)
         .then((res) => this.$router.push({ name: "Drugs" }))
         .catch((e) => console.log(e.response.data));
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-10 pt-6" style="margin-left: 5%">
+  <div class="column is-10 pt-6 background" style="margin-left: 5%">
     <div class="field is-grouped">
       <p class="control pr-6">
         <router-link to="/addDrug">
@@ -15,7 +15,7 @@
         />
       </p>
       <p class="control">
-        <a class="button is-info" @click="getDrugs"> ค้นหา </a>
+        <a class="button is-info" @click="getDrugs"> ค้นหา {{ user.id }} </a>
       </p>
     </div>
     <h1 class="is-size-4 mb-4">ยาทั้งหมด ({{ drugs.length }})</h1>
@@ -42,8 +42,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "@/plugins/axios";
 export default {
+  props: ["user"],
   mounted() {
     this.getDrugs();
   },
@@ -56,7 +57,7 @@ export default {
   methods: {
     getDrugs() {
       axios
-        .get("http://localhost:3000/drugs", {
+        .get("/drugs", {
           params: {
             search: this.search,
           },
@@ -70,7 +71,7 @@ export default {
     },
     drugDetail(id) {
       axios
-        .get(`http://localhost:3000/drug/${id}`)
+        .get(`/drug/${id}`)
         .then((response) => {
           this.$router.push(`/drug/${id}`);
         })
@@ -109,5 +110,13 @@ export default {
   padding: 5px;
   margin: 0;
   height: calc(75vh - 90px);
+}
+.background {
+  background-image: url("../assets/pic.png");
+  margin-left: 5%;
+  background-size: 105%;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  position: relative;
 }
 </style>
