@@ -15,7 +15,7 @@
         />
       </p>
       <p class="control">
-        <a class="button is-info" @click="getDrugs"> ค้นหา {{ user.id }} </a>
+        <a class="button is-info" @click="getDrugs"> ค้นหา </a>
       </p>
     </div>
     <h1 class="is-size-4 mb-4">ยาทั้งหมด ({{ drugs.length }})</h1>

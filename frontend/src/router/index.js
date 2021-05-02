@@ -48,12 +48,20 @@ const routes = [
   {
     path: "/login",
     name: "Login",
+    meta: { guess: true },
     component: () => import("../views/Login.vue") // set login as path '/'
   },
   {
     path: "/signup",
     name: "Signup",
+    meta: { guess: true },
     component: () => import("../views/Signup.vue") // set Signup as path '/'
+  },
+  {
+    path: "/editProfile",
+    name: "EditProfile",
+    meta: { login: true },
+    component: () => import("../views/EditProfile.vue") // set Signup as path '/'
   }
 ];
 

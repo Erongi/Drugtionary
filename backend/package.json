@@ -1,7 +1,6 @@
 {
-  "name": "week09-exercise",
+  "name": "Drugtionary",
   "version": "1.0.0",
-  "description": "แบบฝึกหัดสัปดาห์ที่ 9 Express / MySql",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/it-web-pro/WEEK09-EXERCISE.git"
+    "url": "git+https://github.com/Erongi/Drugtionary.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/it-web-pro/WEEK09-EXERCISE/issues"
+    "url": "https://github.com/Erongi/Drugtionary/issues"
   },
-  "homepage": "https://github.com/it-web-pro/WEEK09-EXERCISE#readme",
+  "homepage": "https://github.com/Erongi/Drugtionary#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

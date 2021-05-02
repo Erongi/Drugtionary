@@ -4,7 +4,7 @@
       <div class="columns is-centered">
         <div class="column">
           <div id="style-1" class="scroll-bar mt-6">
-            <h1 class="title">Sign Up</h1>
+            <h1 class="title">Edit profile</h1>
             <!-- Sign up form -->
             <input
               class="mb-5"
@@ -38,38 +38,13 @@
                 </div>
               </div>
             </div>
-            <div class="field">
-              <label class="label">Username</label>
-              <div class="control has-icons-left">
-                <input
-                  v-model="$v.username.$model"
-                  :class="{ 'is-danger': $v.username.$error }"
-                  class="input"
-                  type="text"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-user"></i>
-                </span>
-              </div>
-              <template v-if="$v.username.$error">
-                <p class="help is-danger" v-if="!$v.username.required">
-                  This field is required
-                </p>
-                <p class="help is-danger" v-if="!$v.username.minLength">
-                  ไม่ต่ำกว่า 5 ตัวอักษร
-                </p>
-                <p class="help is-danger" v-if="!$v.username.maxLength">
-                  ไม่เกิน 20 ตัวอักษร
-                </p>
-              </template>
-            </div>
 
-            <div class="field">
-              <label class="label">Password</label>
+            <!-- <div class="field">
+              <label class="label">Old Password</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  v-model="$v.password.$model"
-                  :class="{ 'is-danger': $v.password.$error }"
+                  v-model="$v.old_password.$model"
+                  :class="{ 'is-danger': $v.old_password.$error }"
                   class="input"
                   type="password"
                 />
@@ -77,25 +52,48 @@
                   <i class="fas fa-lock"></i>
                 </span>
               </div>
-              <template v-if="$v.password.$error">
-                <p class="help is-danger" v-if="!$v.password.required">
+              <template v-if="$v.old_password.$error">
+                <p class="help is-danger" v-if="!$v.old_password.required">
                   This field is required
                 </p>
-                <p class="help is-danger" v-if="!$v.password.minLength">
+                <p class="help is-danger" v-if="!$v.old_password.minLength">
                   length > 8
                 </p>
-                <p class="help is-danger" v-if="!$v.password.complex">
+              </template>
+            </div>
+
+            <div class="field">
+              <label class="label">New Password</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  v-model="$v.new_password.$model"
+                  :class="{ 'is-danger': $v.new_password.$error }"
+                  class="input"
+                  type="password"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </div>
+              <template v-if="$v.new_password.$error">
+                <p class="help is-danger" v-if="!$v.new_password.required">
+                  This field is required
+                </p>
+                <p class="help is-danger" v-if="!$v.new_password.minLength">
+                  length > 8
+                </p>
+                <p class="help is-danger" v-if="!$v.new_password.complex">
                   more complex pls
                 </p>
               </template>
             </div>
 
             <div class="field">
-              <label class="label">Confirm Password</label>
+              <label class="label">Confirm New Password</label>
               <div class="control has-icons-left has-icons-right">
                 <input
-                  v-model="$v.confirm_password.$model"
-                  :class="{ 'is-danger': $v.confirm_password.$error }"
+                  v-model="$v.confirm_new_password.$model"
+                  :class="{ 'is-danger': $v.confirm_new_password.$error }"
                   class="input"
                   type="password"
                 />
@@ -103,61 +101,21 @@
                   <i class="fas fa-lock"></i>
                 </span>
               </div>
-              <template v-if="$v.confirm_password.$error">
-                <p class="help is-danger" v-if="!$v.confirm_password.required">
+              <template v-if="$v.confirm_new_password.$error">
+                <p
+                  class="help is-danger"
+                  v-if="!$v.confirm_new_password.required"
+                >
                   This field is required
                 </p>
-                <p class="help is-danger" v-if="!$v.confirm_password.sameAs">
+                <p
+                  class="help is-danger"
+                  v-if="!$v.confirm_new_password.sameAs"
+                >
                   same as password?
                 </p>
               </template>
-            </div>
-
-            <div class="field">
-              <label class="label">Email</label>
-              <div class="control has-icons-left has-icons-right">
-                <input
-                  v-model="$v.email.$model"
-                  :class="{ 'is-danger': $v.email.$error }"
-                  class="input"
-                  type="text"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-envelope"></i>
-                </span>
-              </div>
-              <template v-if="$v.email.$error">
-                <p class="help is-danger" v-if="!$v.email.required">
-                  This field is required
-                </p>
-                <p class="help is-danger" v-if="!$v.email.email">
-                  Invalid Email
-                </p>
-              </template>
-            </div>
-
-            <div class="field">
-              <label class="label">Mobile Number</label>
-              <div class="control has-icons-left has-icons-right">
-                <input
-                  v-model="$v.mobile.$model"
-                  :class="{ 'is-danger': $v.mobile.$error }"
-                  class="input"
-                  type="text"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-mobile"></i>
-                </span>
-              </div>
-              <template v-if="$v.mobile.$error">
-                <p class="help is-danger" v-if="!$v.mobile.required">
-                  This field is required
-                </p>
-                <p class="help is-danger" v-if="!$v.mobile.mobile">
-                  Invalid Mobile Number
-                </p>
-              </template>
-            </div>
+            </div> -->
 
             <div class="field">
               <label class="label">First Name</label>
@@ -195,6 +153,29 @@
                 </p>
                 <p class="help is-danger" v-if="!$v.last_name.maxLength">
                   ไม่เกิน 150 ตัวอักษร
+                </p>
+              </template>
+            </div>
+
+            <div class="field">
+              <label class="label">Mobile Number</label>
+              <div class="control has-icons-left has-icons-right">
+                <input
+                  v-model="$v.mobile.$model"
+                  :class="{ 'is-danger': $v.mobile.$error }"
+                  class="input"
+                  type="text"
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-mobile"></i>
+                </span>
+              </div>
+              <template v-if="$v.mobile.$error">
+                <p class="help is-danger" v-if="!$v.mobile.required">
+                  This field is required
+                </p>
+                <p class="help is-danger" v-if="!$v.mobile.mobile">
+                  Invalid Mobile Number
                 </p>
               </template>
             </div>
@@ -246,14 +227,8 @@
             </div>
 
             <button class="button is-primary is-fullwidth" @click="submit()">
-              Sign Up
+              Edit Profile
             </button>
-            <p class="my-3">
-              Already have an account?
-              <router-link to="/login">
-                <strong>Login</strong>
-              </router-link>
-            </p>
           </div>
         </div>
       </div>
@@ -281,48 +256,44 @@ function complexPassword(value) {
   return true;
 }
 export default {
+  props: ["user"],
   data() {
     return {
-      username: "",
       images: [],
-      password: "",
-      confirm_password: "",
-      email: "",
-      mobile: "",
-      first_name: "",
-      last_name: "",
-      age: "",
-      gender: "",
+      // old_password: "",
+      // new_password: "",
+      // confirm_new_password: "",
+      mobile: this.user.mobile,
+      first_name: this.user.first_name,
+      last_name: this.user.last_name,
+      age: this.user.age,
+      gender: this.user.gender,
     };
   },
   validations: {
-    email: {
-      required,
-      email,
-    },
     mobile: {
       required: required,
       mobile: mobile,
     },
-    password: {
-      required: required,
-      minLength: minLength(8),
-      complex: complexPassword,
-    },
-    confirm_password: {
-      required: required,
-      sameAs(value) {
-        if (value === this.password) {
-          return true;
-        }
-        return false;
-      },
-    },
-    username: {
-      required: required,
-      minLength: minLength(5),
-      maxLength: maxLength(20),
-    },
+    // old_password: {
+    //   required: required,
+    //   minLength: minLength(8),
+    // },
+    // new_password: {
+    //   required: required,
+    //   minLength: minLength(8),
+    //   complex: complexPassword,
+    // },
+    // confirm_new_password: {
+    //   required: required,
+    //   sameAs(value) {
+    //     if (value === this.new_password) {
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    // },
+
     first_name: {
       required: required,
       maxLength: maxLength(150),
@@ -359,10 +330,9 @@ export default {
 
       if (!this.$v.$invalid) {
         let formData = new FormData();
-        formData.append("username", this.username);
-        formData.append("password", this.password);
-        formData.append("confirm_password", this.confirm_password);
-        formData.append("email", this.email);
+        // formData.append("old_password", this.old_password);
+        // formData.append("new_password", this.new_password);
+        // formData.append("confirm_new_password", this.confirm_new_password);
         formData.append("mobile", this.mobile);
         formData.append("first_name", this.first_name);
         formData.append("last_name", this.last_name);
@@ -370,13 +340,15 @@ export default {
         formData.append("gender", this.gender);
         formData.append("myImage", this.images[0]);
         axios
-          .post("/user/signup", formData)
+          .put("/user/editProfile", formData)
           .then((res) => {
-            alert("Sign up Success");
-            this.$router.push({ path: "/login" });
+            alert("edit Success");
+            this.$emit("auth-change");
+            this.$router.push({ path: "/profile" });
           })
           .catch((err) => {
-            alert(err.response.data.details.message);
+            // alert(err.response.data.details.message)
+            console.log(err);
           });
       }
     },

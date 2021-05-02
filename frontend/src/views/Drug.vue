@@ -118,6 +118,7 @@
 <script>
 import axios from "@/plugins/axios";
 export default {
+  props: ["user"],
   mounted() {
     this.getDrugDetail(this.$route.params.id);
   },
@@ -163,6 +164,7 @@ export default {
           date: this.date,
           time: this.time,
           amount: this.amount,
+          user_id: this.user.id,
           type: this.drug.type,
         })
         .then((response) => {

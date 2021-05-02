@@ -3,9 +3,6 @@
     <div class="background">
       <div class="text">
         <h1 class="header">DRUGTIONARY</h1>
-        <img
-          url="https://i.kym-cdn.com/entries/icons/original/000/032/279/Screen_Shot_2019-12-30_at_11.26.24_AM.png"
-        />
         <h3 class="font">
           เว็บไซด์นี้จัดทำขึ้นมีจุดประสงค์ในการจัดทำ เพื่อให้แพทย์ และเภสัชกรณ์
           สามาถเข้าดูรายการของยาต่างๆได้ ซึ่งหลายๆครั้งที่แพทย์ และเภสัชกรณ์

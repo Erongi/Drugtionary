@@ -19,6 +19,7 @@ router.post("/history/:drugId", async function (req, res, next) {
     const time = req.body.time;
     const amount = req.body.amount;
     const type = req.body.type;
+    const user_id = req.body.user_id;
     const conn = await pool.getConnection();
     // Begin transaction
     await conn.beginTransaction();
@@ -28,17 +29,11 @@ router.post("/history/:drugId", async function (req, res, next) {
         fields1,
       ] = await conn.query(
         "INSERT INTO `history` (`patient_id`, `drug_id`, `drug_name`, `date`, `time`, `amount`, `type`) VALUES(?, ?,?, ?,?, ?,? )",
-        [1, req.params.drugId, drug_name, date, time, amount, type]
+        [user_id, req.params.drugId, drug_name, date, time, amount, type]
       );
 
-      const [
-        rows2,
-        fields2,
-      ] = await conn.query("SELECT * FROM `ct` WHERE `id` = ?", [
-        rows1.insertId,
-      ]);
       await conn.commit();
-      return res.json(rows2[0]);
+      return res.json("add " + rows1.drug_name + "success.");
     } catch (err) {
       await conn.rollback();
       return res.status(400).json(err);

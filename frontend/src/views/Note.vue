@@ -121,49 +121,6 @@
         </div>
       </div>
     </div>
-
-    <div class="task">
-      <p class="mb-5 subtitle">การจัดยาคนไข้</p>
-      <div class="sub_task" v-for="task in note.ct" :key="'ct' + task.id">
-        {{ task.message }}
-        <div class="level-right mr-3">
-          <i
-            @click="delTaskCT(task.id)"
-            class="fas fa-trash-alt level-right"
-          ></i>
-        </div>
-      </div>
-      <div>
-        <input
-          v-if="ctForm"
-          @click="ctForm = !ctForm"
-          type="button"
-          class="btn"
-          value="เพิ่มบันทึก"
-        />
-        <div v-else>
-          <input
-            class="input is-primary mb-2"
-            type="text"
-            v-model="ctText"
-            placeholder="Add Complete Tasks"
-          />
-          <div class="field is-grouped is-grouped-right">
-            <p class="control">
-              <a class="button is-primary" @click="addCT"> บันทึก </a>
-            </p>
-            <p class="control">
-              <a
-                class="button is-light"
-                @click="(ctForm = !ctForm), (ctText = '')"
-              >
-                ยกเลิก
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -183,11 +140,10 @@ export default {
       nptForm: 1,
       tdtForm: 1,
       iptForm: 1,
-      ctForm: 1,
+
       nptText: "",
       tdtText: "",
       iptText: "",
-      ctText: "",
       note: [],
     };
   },
@@ -203,20 +159,7 @@ export default {
           console.log(err);
         });
     },
-    addCT() {
-      axios
-        .post(`/note/ct/${this.id}`, {
-          message: this.ctText,
-        })
-        .then((response) => {
-          this.ctText = "";
-          this.ctForm = 1;
-          this.note.ct.push(response.data);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-    },
+
     addIPT() {
       axios
         .post(`/note/ipt/${this.id}`, {
@@ -270,17 +213,7 @@ export default {
         });
       // console.log(id);
     },
-    delTaskCT(id) {
-      axios
-        .delete(`/note/ct/${id}`)
-        .then((response) => {
-          this.note.ct = this.note.ct.filter((e) => e.id != id);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-      // console.log(id);
-    },
+
     delTaskIPT(id) {
       axios
         .delete(`/note/ipt/${id}`)

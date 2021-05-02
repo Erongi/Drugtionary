@@ -13,8 +13,9 @@
             <span class="pl-3">{{ user.first_name }} {{ user.last_name }}</span>
           </a>
           <div class="navbar-dropdown">
-            <a class="navbar-item">Profile</a>
-            <a class="navbar-item" @click="logout">Log out</a>
+            <a class="navbar-item" @click="profile">โปรไฟล์</a>
+            <a class="navbar-item" @click="editProfile">แก้ไขโปรไฟล์</a>
+            <a class="navbar-item" @click="logout">ออกจากระบบ</a>
           </div>
         </div>
 
@@ -100,6 +101,12 @@ export default {
       localStorage.clear();
       this.user = null;
       this.$router.push({ path: "/" });
+    },
+    editProfile() {
+      this.$router.push({ path: "/editProfile" });
+    },
+    profile() {
+      this.$router.push({ path: "/profile" });
     },
   },
 };

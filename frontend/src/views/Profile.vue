@@ -1,41 +1,35 @@
 <template>
-  <div class="background">
-    <div class="columns ml-6">
-      <div class="picprofile">
+  <div>
+    <div class="columns">
+      <div class="picprofile column is-4">
         <div class="picprofile3">
-          <img
-            src="https://i.pinimg.com/736x/6b/eb/5d/6beb5d8607e0a9bb2e3d5b82b09cbfe1.jpg"
-            width="100%"
-          />
-        </div>
+          <img class="picture" :src="imagePath(user.picture)" />
+          <br />
+          <div class="detailpf">
+            <div>
+              <p class="styletxt">
+                <b style="display: grid; text-align: center">
+                  {{ user.first_name }} {{ user.last_name }} <br />
+                </b>
+                <br />
+                อายุ: {{ user.age }}<br />
+                เพศ: {{ user.gender }}<br />
+                อีเมล: {{ user.email }}<br />
+                ติดต่อ: {{ user.mobile }}<br />
+                <br />
+              </p>
+            </div>
+            <!-- ปุ่มแอดสำหรับคนไข้ -->
+            <button class="button is-success">+ เพิ่มคนไข้</button>
 
-        <div class="detailpf">
-          <div>
-            <p class="styletxt">
-              <b style="display: grid; text-align: center">
-                {{ user.first_name }} {{ user.last_name }}<br />
-                <!-- Dr.Wanwisa Tansiricharernkul (Dr.Lin) -->
-              </b>
-              <b
-                v-if="user.role != 'patient'"
-                style="display: grid; text-align: center"
-              >
-                Dr .{{ user.first_name }} {{ user.last_name }}<br />
-
-                <!-- Dr.Wanwisa Tansiricharernkul (Dr.Lin) -->
-              </b>
-              <br />
-              <b>ตำ</b>แหน่ง : {{ user.gender }}
-
-              <br /><br />
-
-              {{ user.description }}
-            </p>
+            <!-- ปุ่มสำหรับลบคนไข้ -->
+            <button class="button is-danger">- ลบคนไข้</button>
           </div>
         </div>
       </div>
+      <!-- ของหมอ -->
 
-      <div class="picprofile2">
+      <div class="picprofile2 column">
         <div class="Patientcare ml-5 mt-5">
           <table class="table">
             <thead>
@@ -48,6 +42,149 @@
               </tr>
             </thead>
           </table>
+        </div>
+      </div>
+
+      <!-- ของคนไข้ -->
+
+      <div v-if="user.role == 'patient'" class="picprofile2 column">
+        <div class="Patientcare ml-5 mt-5">
+          <div id="style-1" class="column scroll-bar">
+            <p class="headtext">ยาที่รับประทาน</p>
+            <table class="table mt-5">
+              <thead>
+                <tr>
+                  <th>ชื่อยา</th>
+                  <th>ประเภทยา</th>
+                  <th>วันที่รับประทาน</th>
+                  <th>เวลารับประทาน</th>
+                  <th>จำนวน</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="i in history" :key="i.id">
+                  <td>{{ i.drug_name }}</td>
+                  <td>{{ i.type }}</td>
+                  <td>{{ i.date }}</td>
+                  <td>{{ i.time }}</td>
+                  <td>{{ i.amount }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <hr class="underline" />
+              <thread>
+                <tr>
+                  <td>
+                    <p class="headtext mr-5">อาการ</p>
+                  </td>
+                  <!-- ปุ่มเพิ่มอาการ -->
+                  <button class="button is-success">+ เพิ่มอาการ</button>
+                </tr>
+                <hr class="underline" />
+              </thread>
+            </div>
+            <table>
+              <td>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+                <tr>
+                  ไม่สบายค้าบ
+                </tr>
+                <tr>
+                  หายใจไม่ออกค้าบ
+                </tr>
+              </td>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -81,23 +218,45 @@ export default {
           this.error = error.response.data.message;
         });
     },
+    imagePath(file_path) {
+      if (file_path) {
+        return "http://localhost:3000/" + file_path;
+      } else {
+        return "https://bulma.io/images/placeholders/640x360.png";
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
+#style-1::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+#style-1::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #555;
+}
 .columns {
-  background-color: rgb(236, 236, 236);
-  width: 80%;
+  background-color: rgb(221, 219, 219);
+  width: 110%;
   height: 820px;
   margin: 5px;
   border-radius: 25px;
 }
 .picprofile {
   background-color: rgb(255, 255, 255);
-  width: 50%;
-  height: 100%;
-  margin: 1%;
+  /* width: 50%; */
+  height: 98%;
+  margin: 0.5%;
+  /* margin-right: 1%; */
   border-radius: 25px;
   display: grid;
   /* justify-content: center; */
@@ -105,20 +264,29 @@ export default {
 }
 .picprofile2 {
   background-color: rgb(255, 255, 255);
-  width: 50%;
+  /* width: 50%; */
   height: 98%;
-  margin: 1%;
+  margin: 0.5%;
+  border-radius: 25px;
+}
+.picture {
+  /* display: ; */
+  align-items: center;
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 25px;
 }
 .detailpf {
   background-color: rgb(255, 255, 255);
-  width: 98.5%;
-  height: 100%;
-  margin-top: 20%;
-  margin-bottom: 10%;
-  margin-left: 5px;
+  width: 100%;
+  /* height: 80%; */
+  /* margin-top: 20%; */
+  /* margin-bottom: 10%; */
+  /* margin-left: 5px; */
   border-radius: 25px;
-  color: black;
+  /* color: black; */
 }
 .styletxt {
   width: 100%;
@@ -133,8 +301,8 @@ export default {
   border-radius: 2%;
 }
 .picprofile3 {
-  width: 70%;
-  /* height: 0%; */
+  width: 100%;
+  height: 100%;
   /* margin: 5px; */
   border-radius: 25px;
 }
@@ -151,12 +319,30 @@ export default {
 .font {
   font-size: 120%;
 }
-.background {
-  background-image: url("../assets/pic.png");
-  margin-left: 5%;
-  background-size: 105%;
-  background-position: inherit;
-  background-repeat: no-repeat;
-  position: relative;
+.scroll-bar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 5px;
+  margin: 0;
+  height: calc(75vh);
+}
+.button {
+  display: inline-block;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+  /* position: relative; */
+  display: block;
+  /* align-self:; */
+  /* margin-left: 90%; */
+}
+.headtext {
+  font-size: 20px;
+  font-weight: bold;
+}
+.underline {
+  color: grey;
+  background-color: rgb(224, 224, 224);
 }
 </style>
+

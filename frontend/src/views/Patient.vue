@@ -1,45 +1,51 @@
 <template>
-  <div class="columns ml-5 mt-5">
-    <div class="column is-one-fifth">
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-1by1">
-            <img :src="imagePath(patient.picture)" alt="Placeholder image" />
-          </figure>
-        </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-content">
-              <button
-                v-if="medical == null"
-                class="button is-success is-inverted"
-                @click="addPatient"
-              >
-                เพิ่มคนไข้
+  <div>
+    <div class="columns">
+      <div class="picprofile column is-4">
+        <div class="picprofile3">
+          <img class="picture" :src="imagePath(patient.picture)" />
+          <br />
+          <div class="detailpf">
+            <div>
+              <p class="styletxt">
+                <b style="display: grid; text-align: center">
+                  {{ patient.first_name }} {{ patient.last_name }} <br />
+                </b>
+                <br />
+                อายุ: {{ patient.age }}<br />
+                เพศ: {{ patient.gender }}<br />
+                อีเมล: {{ patient.email }}<br />
+                ติดต่อ: {{ patient.mobile }}<br />
+                <!-- <div v-if="medical">ผู้ดูแล: {{ medical.first_name }}</div> -->
+                <br />
+              </p>
+            </div>
+            <!-- ปุ่มแอดสำหรับคนไข้ -->
+            <button
+              v-if="medical == null"
+              class="button is-success"
+              @click="addPatient"
+            >
+              + เพิ่มคนไข้
+            </button>
+
+            <!-- ปุ่มสำหรับลบคนไข้ -->
+            <div v-else>
+              <center>ผู้ดูแล: {{ medical.first_name }}</center>
+              <button class="button is-danger" @click="delPatient">
+                - ลบคนไข้
               </button>
-              <div v-else>
-                <p>{{ medical.name }}</p>
-                <button
-                  class="button is-danger is-inverted"
-                  @click="delPatient"
-                >
-                  ลบคนไข้
-                </button>
-              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="column">
-      <p><b>ชื่อ: </b>{{ patient.first_name }}</p>
-      <p><b>อายุ: </b>{{ patient.age }}</p>
-      <p><b>เพศ: </b>{{ patient.gender }}</p>
-      <p><b>อาการ: </b>{{ patient.picture }}</p>
-      <div class="columns mt-5">
-        <div class="column">
-          <p>ยาที่รับประทาน</p>
-          <div class="columns">
+
+      <!-- ของคนไข้ -->
+
+      <div class="picprofile2 column is-7.2">
+        <div class="Patientcare ml-5 mt-5">
+          <div id="style-1" class="column scroll-bar">
+            <p class="headtext">ยาที่รับประทาน</p>
             <table class="table mt-5">
               <thead>
                 <tr>
@@ -60,18 +66,92 @@
                 </tr>
               </tbody>
             </table>
+            <div>
+              <hr class="underline" />
+              <div>
+                <tr>
+                  <td>
+                    <p class="headtext mr-5">อาการ</p>
+                  </td>
+                  <!-- ปุ่มเพิ่มอาการ -->
+                  <button
+                    class="button is-success is-inverted"
+                    @click="AddModal = true"
+                  >
+                    + เพิ่มอาการ
+                  </button>
+                </tr>
+                <hr class="underline" />
+              </div>
+            </div>
+            <table>
+              <td>
+                <tr v-for="symptom in symptoms" :key="symptom.id">
+                  {{
+                    symptom.description
+                  }}
+                </tr>
+              </td>
+            </table>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- modal -->
+    <div class="modal" :class="{ 'is-active': AddModal }">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">กรอกอาการ</p>
+          <button
+            class="delete"
+            aria-label="close"
+            @click="cancelModal"
+          ></button>
+        </header>
+        <section class="modal-card-body">
+          <!-- Content ... -->
+          <div class="columns">
+            <div class="column is-12">
+              <div class="field">
+                <div class="control mx-6">
+                  <p>จำนวน</p>
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="อาการ"
+                    v-model="text"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success" @click="addSymptom">
+            เพิ่มอาการ
+          </button>
+          <button class="button" @click="cancelModal">ยกเลิก</button>
+        </footer>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 import axios from "@/plugins/axios";
 export default {
+  props: ["user"],
   mounted() {
     this.getPatientDetail(this.$route.params.id);
+    if (
+      this.$route.params.id != this.user.id &&
+      this.user.role != "medical" &&
+      this.user.role != "admin"
+    ) {
+      this.$router.push({ path: "/" });
+    }
   },
   data() {
     return {
@@ -79,6 +159,9 @@ export default {
       patient: {},
       history: [],
       medical: null,
+      AddModal: false,
+      symptoms: [],
+      text: "",
     };
   },
   methods: {
@@ -86,20 +169,24 @@ export default {
       axios
         .get(`/patient/${id}`)
         .then((response) => {
-          this.patient = response.data.patients;
+          this.patient = response.data.users;
           this.history = response.data.history;
+          this.symptoms = response.data.symptoms;
           this.id = id;
-          this.getMedical(this.patients.medical_id);
+          if (response.data.patients) {
+            this.getMedical(response.data.patients.medical_id);
+          }
         })
         .catch((error) => {
-          this.error = error.response.data.message;
+          this.error = error.response;
+          console.log(error);
         });
     },
     getMedical(id) {
       axios
-        .get(`/medical/${id}`)
+        .get(`/user/${id}`)
         .then((response) => {
-          this.medical = response.data.medical;
+          this.medical = response.data.user;
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -132,6 +219,28 @@ export default {
         return "https://bulma.io/images/placeholders/640x360.png";
       }
     },
+    cancelModal() {
+      this.AddModal = false;
+      this.amount = null;
+      this.date = "";
+      this.time = "";
+    },
+    addSymptom() {
+      axios
+        .post(`/symptom/${this.id}`, {
+          user_id: this.id,
+          description: this.text,
+          create_by: this.user.id,
+        })
+        .then((response) => {
+          this.symptoms.push(response.data);
+          this.AddModal = false;
+          this.text = "";
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
   },
 };
 </script>
@@ -142,3 +251,121 @@ export default {
   align-items: center;
 }
 </style>
+
+<style scoped>
+#style-1::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+#style-1::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+#style-1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #555;
+}
+.columns {
+  background-color: rgb(221, 219, 219);
+  width: 110%;
+  height: 820px;
+  margin: 5px;
+  border-radius: 25px;
+}
+.picprofile {
+  background-color: rgb(255, 255, 255);
+  /* width: 50%; */
+  height: 98%;
+  margin: 0.5%;
+  /* margin-right: 1%; */
+  border-radius: 25px;
+  display: grid;
+  /* justify-content: center; */
+  align-items: center;
+}
+.picprofile2 {
+  background-color: rgb(255, 255, 255);
+  /* width: 50%; */
+  height: 98%;
+  margin: 0.5%;
+  border-radius: 25px;
+}
+.picture {
+  /* display: ; */
+  align-items: center;
+  width: 60%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 25px;
+}
+.detailpf {
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  /* height: 80%; */
+  /* margin-top: 20%; */
+  /* margin-bottom: 10%; */
+  /* margin-left: 5px; */
+  border-radius: 25px;
+  /* color: black; */
+}
+.styletxt {
+  width: 100%;
+  max-width: 80%;
+  margin-left: 10%;
+  text-align: start;
+  height: 50%;
+  /* word-break: break-all; */
+}
+.table {
+  width: 98%;
+  border-radius: 2%;
+}
+.picprofile3 {
+  width: 100%;
+  height: 100%;
+  /* margin: 5px; */
+  border-radius: 25px;
+}
+.name {
+  text-align: center;
+}
+.Medicalhistory {
+  height: 50%;
+  margin-left: 2%;
+}
+.Patientcare {
+  margin-left: 2%;
+}
+.font {
+  font-size: 120%;
+}
+.scroll-bar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 5px;
+  margin: 0;
+  height: calc(75vh);
+}
+.button {
+  display: inline-block;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
+  /* position: relative; */
+  display: block;
+  /* align-self:; */
+  /* margin-left: 90%; */
+}
+.headtext {
+  font-size: 20px;
+  font-weight: bold;
+}
+.underline {
+  color: grey;
+  background-color: rgb(224, 224, 224);
+}
+</style>
+

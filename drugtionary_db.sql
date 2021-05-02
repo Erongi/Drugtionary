@@ -61,15 +61,6 @@ CREATE TABLE `IPT` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `CT`;
-CREATE TABLE `CT` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `message` text NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
-
 DROP TABLE IF EXISTS `history`;
 CREATE TABLE `history` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -87,7 +78,7 @@ CREATE TABLE `history` (
 DROP TABLE IF EXISTS `patients`;
 CREATE TABLE `patients` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `symptom` varchar(200) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
   `medical_id` bigint(20),
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
@@ -132,6 +123,17 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `symptoms`;
+CREATE TABLE `symptoms` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `description` text NOT NULL,
+  `create_by` bigint(20) NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `patients` (`id`, `name`, `gender`, `age`, `image`, `symptom`, `medical_id`) VALUES
 ('1', 'พัสกร อรุณสดใส', 'ชาย', '20', 'https://randomuser.me/api/portraits/women/1.jpg', 'เผ็ด', NULL),
