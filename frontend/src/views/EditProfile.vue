@@ -229,6 +229,12 @@
             <button class="button is-primary is-fullwidth" @click="submit()">
               Edit Profile
             </button>
+            <p class="my-3">
+              ต้องการแก้ไขรหัสผ่าน
+              <router-link to="/editPassword">
+                <strong>คลิก</strong>
+              </router-link>
+            </p>
           </div>
         </div>
       </div>
@@ -347,8 +353,7 @@ export default {
             this.$router.push({ path: "/profile" });
           })
           .catch((err) => {
-            // alert(err.response.data.details.message)
-            console.log(err);
+            alert(err.response.data.details.message);
           });
       }
     },

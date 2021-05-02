@@ -55,40 +55,45 @@ router.get(
   }
 );
 
-router.get("/patient/:id", function (req, res, next) {
-  // Query data from 3 tables
-  const promise1 = pool.query("SELECT * FROM users WHERE id=?", [
-    req.params.id,
-  ]);
-  const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [
-    req.params.id,
-  ]);
-  const promise3 = pool.query("SELECT * FROM patients WHERE user_id=?", [
-    req.params.id,
-  ]);
-  const promise4 = pool.query("SELECT * FROM symptoms WHERE user_id=?", [
-    req.params.id,
-  ]);
+router.get(
+  "/patient/:id",
+  isLoggedIn,
+  permisionProfile,
+  function (req, res, next) {
+    // Query data from 3 tables
+    const promise1 = pool.query("SELECT * FROM users WHERE id=?", [
+      req.params.id,
+    ]);
+    const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [
+      req.params.id,
+    ]);
+    const promise3 = pool.query("SELECT * FROM patients WHERE user_id=?", [
+      req.params.id,
+    ]);
+    const promise4 = pool.query("SELECT * FROM symptoms WHERE user_id=?", [
+      req.params.id,
+    ]);
 
-  // Use Promise.all() to make sure that all queries are successful
-  Promise.all([promise1, promise2, promise3, promise4])
-    .then((results) => {
-      const [users, usersFields] = results[0];
-      const [history, historyFields] = results[1];
-      const [patients, patientsFields] = results[2];
-      const [symptoms, symptomsFields] = results[3];
+    // Use Promise.all() to make sure that all queries are successful
+    Promise.all([promise1, promise2, promise3, promise4])
+      .then((results) => {
+        const [users, usersFields] = results[0];
+        const [history, historyFields] = results[1];
+        const [patients, patientsFields] = results[2];
+        const [symptoms, symptomsFields] = results[3];
 
-      res.json({
-        users: users[0],
-        history: history,
-        patients: patients[0],
-        symptoms: symptoms,
+        res.json({
+          users: users[0],
+          history: history,
+          patients: patients[0],
+          symptoms: symptoms,
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json(err);
       });
-    })
-    .catch((err) => {
-      return res.status(500).json(err);
-    });
-});
+  }
+);
 
 router.put("/patient/pair/:id", isLoggedIn, async function (req, res, next) {
   const conn = await pool.getConnection();

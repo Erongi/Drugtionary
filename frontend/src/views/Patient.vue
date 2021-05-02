@@ -16,14 +16,16 @@
                 เพศ: {{ patient.gender }}<br />
                 อีเมล: {{ patient.email }}<br />
                 ติดต่อ: {{ patient.mobile }}<br />
-                <!-- <div v-if="medical">ผู้ดูแล: {{ medical.first_name }}</div> -->
                 <br />
               </p>
             </div>
             <!-- ปุ่มแอดสำหรับคนไข้ -->
             <button
-              v-if="medical == null"
-              class="button is-success"
+              v-if="
+                medical == null &&
+                (this.user.role === 'medical' || this.user.role === 'admin')
+              "
+              class="button button_modify is-success"
               @click="addPatient"
             >
               + เพิ่มคนไข้
@@ -31,8 +33,14 @@
 
             <!-- ปุ่มสำหรับลบคนไข้ -->
             <div v-else>
-              <center>ผู้ดูแล: {{ medical.first_name }}</center>
-              <button class="button is-danger" @click="delPatient">
+              <center>
+                ผู้ดูแล: {{ medical.first_name }} {{ medical.last_name }}
+              </center>
+              <button
+                v-if="checkPermission()"
+                class="button button_modify is-danger"
+                @click="delPatient"
+              >
                 - ลบคนไข้
               </button>
             </div>
@@ -76,6 +84,7 @@
                   <!-- ปุ่มเพิ่มอาการ -->
                   <button
                     class="button is-success is-inverted"
+                    v-if="checkPermission()"
                     @click="AddModal = true"
                   >
                     + เพิ่มอาการ
@@ -111,20 +120,13 @@
         </header>
         <section class="modal-card-body">
           <!-- Content ... -->
-          <div class="columns">
-            <div class="column is-12">
-              <div class="field">
-                <div class="control mx-6">
-                  <p>จำนวน</p>
-                  <input
-                    class="input"
-                    type="text"
-                    placeholder="อาการ"
-                    v-model="text"
-                  />
-                </div>
-              </div>
-            </div>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="อาการ"
+              v-model="text"
+            />
           </div>
         </section>
         <footer class="modal-card-foot">
@@ -221,9 +223,7 @@ export default {
     },
     cancelModal() {
       this.AddModal = false;
-      this.amount = null;
-      this.date = "";
-      this.time = "";
+      this.text = "";
     },
     addSymptom() {
       axios
@@ -240,6 +240,18 @@ export default {
         .catch((error) => {
           this.error = error.response.data.message;
         });
+    },
+    checkPermission() {
+      if (this.user.role === "admin") {
+        return true;
+      }
+      if (this.user.id === this.id) {
+        return true;
+      }
+      if (this.user.id === this.medical?.id) {
+        return true;
+      }
+      return false;
     },
   },
 };
@@ -349,7 +361,7 @@ export default {
   margin: 0;
   height: calc(75vh);
 }
-.button {
+.button_modify {
   display: inline-block;
   overflow: auto;
   white-space: nowrap;

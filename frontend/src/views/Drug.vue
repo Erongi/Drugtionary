@@ -36,7 +36,11 @@
       <div class="columns">
         <div class="column is-10"></div>
         <div class="column is-2 mt-5">
-          <button class="button is-success" @click="AddModal = true">
+          <button
+            class="button is-success"
+            @click="AddModal = true"
+            v-if="user"
+          >
             เพิ่มยา
           </button>
         </div>

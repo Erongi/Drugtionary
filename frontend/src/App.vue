@@ -38,7 +38,10 @@
         <div class="container-menu subtitle">
           <router-link to="/">หน้าแรก</router-link>
         </div>
-        <div class="container-menu subtitle">
+        <div
+          v-if="user && (user.role === 'medical' || user.role === 'admin')"
+          class="container-menu subtitle"
+        >
           <router-link to="/patients">คนไข้</router-link>
         </div>
         <div class="container-menu subtitle">

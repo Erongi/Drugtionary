@@ -12,11 +12,13 @@ const routes = [
   {
     path: "/patients",
     name: "Patients",
+    meta: { login: true },
     component: () => import("../views/Patients.vue") // set patients as path '/'
   },
   {
     path: "/patient/:id",
     name: "Patient",
+    meta: { login: true },
     component: () => import("../views/Patient.vue") // set patients as path '/'
   },
   {
@@ -27,6 +29,7 @@ const routes = [
   {
     path: "/addDrug",
     name: "Add Drug",
+    meta: { login: true },
     component: () => import("../views/AddDrug.vue") // set drugs as path '/'
   },
   {
@@ -37,6 +40,7 @@ const routes = [
   {
     path: "/note/:id",
     name: "Note",
+    meta: { login: true },
     component: () => import("../views/Note.vue") // set note as path '/'
   },
   {
@@ -62,6 +66,12 @@ const routes = [
     name: "EditProfile",
     meta: { login: true },
     component: () => import("../views/EditProfile.vue") // set Signup as path '/'
+  },
+  {
+    path: "/editPassword",
+    name: "EditPassword",
+    meta: { login: true },
+    component: () => import("../views/EditPassword.vue") // set Signup as path '/'
   }
 ];
 

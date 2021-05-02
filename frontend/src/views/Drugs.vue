@@ -1,7 +1,10 @@
 <template>
   <div class="column is-10 pt-6 background" style="margin-left: 5%">
     <div class="field is-grouped">
-      <p class="control pr-6">
+      <p
+        class="control pr-6"
+        v-if="user && (user.role === 'medical' || user.role === 'admin')"
+      >
         <router-link to="/addDrug">
           <a class="button is-primary">+ เพิ่มยา </a>
         </router-link>

@@ -6,6 +6,18 @@ const path = require("path");
 
 const { generateToken } = require("../utils/token");
 const { isLoggedIn } = require("../middlewares");
+const permisionProfile = async (req, res, next) => {
+  if (req.user.role === "admin") {
+    return next();
+  }
+  if (req.user.role === "medical") {
+    return next();
+  }
+  if (req.params.id != req.user.id) {
+    return res.status(403).send("You dont have permision. XD");
+  }
+  return next();
+};
 
 router = express.Router();
 
@@ -89,6 +101,11 @@ const editProfileSchema = Joi.object({
     .pattern(/[0-9]{1,3}/),
   last_name: Joi.string().required().max(150),
   gender: Joi.string().required().valid("ชาย", "หญิง"),
+});
+
+const editPasswordSchema = Joi.object({
+  old_password: Joi.string().required().custom(passwordValidator),
+  new_password: Joi.string().required().custom(passwordValidator),
 });
 
 router.post(
@@ -200,20 +217,25 @@ router.get("/user/me", isLoggedIn, async (req, res, next) => {
   res.json(req.user);
 });
 
-router.get("/user/:id", async function (req, res, next) {
-  try {
-    const [
-      rows,
-      fields,
-    ] = await pool.query(
-      "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
-      [req.params.id]
-    );
-    return res.json({ user: rows[0] });
-  } catch (err) {
-    return res.status(500).json(err);
+router.get(
+  "/user/:id",
+  isLoggedIn,
+  permisionProfile,
+  async function (req, res, next) {
+    try {
+      const [
+        rows,
+        fields,
+      ] = await pool.query(
+        "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
+        [req.params.id]
+      );
+      return res.json({ user: rows[0] });
+    } catch (err) {
+      return res.status(500).json(err);
+    }
   }
-});
+);
 
 router.put(
   "/user/editProfile",
@@ -239,7 +261,6 @@ router.put(
     try {
       await conn.query(
         "UPDATE `users` SET `first_name` = ?,`last_name` = ?,`age` = ?,`gender` = ?,`mobile` = ?,`picture` = ?  WHERE `id` = ?",
-
         [
           first_name,
           last_name,
@@ -251,7 +272,7 @@ router.put(
         ]
       );
       await conn.commit();
-      res.json("whatttt");
+      res.json("edit profile success");
     } catch (err) {
       await conn.rollback();
       return res.status(500).json(err);
@@ -261,5 +282,42 @@ router.put(
     }
   }
 );
+
+router.put("/user/editPassword", isLoggedIn, async function (req, res, next) {
+  try {
+    await editPasswordSchema.validateAsync(req.body, { abortEarly: false });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+
+  const old_password = req.body.old_password;
+  const new_password = await bcrypt.hash(req.body.new_password, 5);
+
+  try {
+    const [[user]] = await conn.query("SELECT * FROM users WHERE id=?", [
+      req.user.id,
+    ]);
+
+    // Check if password is correct
+    if (!(await bcrypt.compare(old_password, user.password))) {
+      throw new Error("Incorrect old password");
+    }
+
+    await conn.query("UPDATE `users` SET `password` = ?  WHERE `id` = ?", [
+      new_password,
+      req.user.id,
+    ]);
+    await conn.commit();
+    res.json("change password success");
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
+  }
+});
 
 exports.router = router;
