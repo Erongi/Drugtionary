@@ -3,40 +3,37 @@
     <div class="background">
       <div class="text">
         <h1 class="header">DRUGTIONARY</h1>
-        <h3 class="font">
-          เว็บไซด์นี้จัดทำขึ้นมีจุดประสงค์ในการจัดทำ เพื่อให้แพทย์ และเภสัชกรณ์
-          สามาถเข้าดูรายการของยาต่างๆได้ ซึ่งหลายๆครั้งที่แพทย์ และเภสัชกรณ์
-          ต้องคอยหาข้อมูล หรือสอบถามข้อมูลเกี่ยวกับยาจากผู้อื่น
-          เราจึงได้นำมาเป็นหัวข้อในการศึกษาเพื่อประกอบกับเนื้อหาที่มีความสนใจ
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        </h3>
+        <center>
+          <img
+            style="width: 100%"
+            src="../assets/medical.jpg"
+            alt="Girl in a jacket"
+          />
+        </center>
+        <div class="mx-6">
+          <article class="message is-primary mt-3">
+            <div class="message-body">
+              <p class="mx-6">
+                เว็บไซด์นี้จัดทำขึ้นมีจุดประสงค์ในการจัดทำ เพื่อให้แพทย์
+                และเภสัชกรณ์ สามาถเข้าดูรายการของยาต่างๆได้
+                ซึ่งหลายๆครั้งที่แพทย์ และเภสัชกรณ์ ต้องคอยหาข้อมูล
+                หรือสอบถามข้อมูลเกี่ยวกับยาจากผู้อื่น
+                เราจึงได้นำมาเป็นหัวข้อในการศึกษาเพื่อประกอบกับเนื้อหาที่มีความสนใจ
+              </p>
+            </div>
+          </article>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="column">
-        <h4>Pages</h4>
-        <i>
-          <a href="./">หน้าแรก</a><br />
-          <a href="./patients">คนไข้</a><br />
-          <a href="./drugs">ยา</a><br />
-          <a href="./note/1">บันทึก</a><br />
-          <a href="./profile/">โปรไฟล์</a>
-        </i>
-      </div>
-      <div class="column">
-        <h4>Member</h4>
-        <p>61070044</p>
-        <p>61070141</p>
-        <p>61070213</p>
-      </div>
-      <div class="column">
+    <footer class="footer">
+      <div class="content has-text-centered">
         <h4>This project</h4>
         <p>
           Part of Web Programming class KMITL Faculty of Information Technology
         </p>
         <p>Copyright ©2021 Allright reserved</p>
       </div>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -65,11 +62,6 @@ export default {
 }
 .text {
   margin: 2%;
-}
-.font {
-  margin-top: 20%;
-  margin-left: 20%;
-  margin-right: 20%;
 }
 .background {
   background-image: url("../assets/pic.png");

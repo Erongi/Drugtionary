@@ -19,11 +19,6 @@
                 <br />
               </p>
             </div>
-            <!-- ปุ่มแอดสำหรับคนไข้ -->
-            <button class="button is-success">+ เพิ่มคนไข้</button>
-
-            <!-- ปุ่มสำหรับลบคนไข้ -->
-            <button class="button is-danger">- ลบคนไข้</button>
           </div>
         </div>
       </div>
@@ -39,8 +34,8 @@
               <th class="font">คนไข้ที่ดูแล</th>
               <tr>
                 <li v-for="patient in patients" :key="patient.id">
-                  {{ patient.name }}
-                  อายุ {{ patient.age }} เพศ {{ patient.gender }}
+                  <b>{{ patient.first_name }} {{ patient.last_name }}</b> อายุ
+                  {{ patient.age }} เพศ {{ patient.gender }}
                 </li>
               </tr>
             </thead>
@@ -76,21 +71,21 @@
             </table>
             <div>
               <hr class="underline" />
-              <thread>
+              <div>
                 <tr>
                   <td>
                     <p class="headtext mr-5">อาการ</p>
                   </td>
-                  <!-- ปุ่มเพิ่มอาการ -->
-                  <button class="button is-success">+ เพิ่มอาการ</button>
                 </tr>
                 <hr class="underline" />
-              </thread>
+              </div>
             </div>
             <table>
               <td>
-                <tr>
-                  ไม่สบายค้าบ
+                <tr v-for="symptom in symptoms" :key="symptom.id">
+                  {{
+                    symptom.description
+                  }}
                 </tr>
               </td>
             </table>
@@ -106,23 +101,48 @@ import axios from "@/plugins/axios";
 export default {
   props: ["user"],
   mounted() {
-    this.getProfile(1);
+    if (this.user.role === "patient") {
+      this.getHistory();
+      this.getSymptoms();
+    } else {
+      this.getPatients();
+    }
   },
   data() {
     return {
       id: null,
       medical: {},
       patients: [],
+      history: [],
+      symptoms: [],
     };
   },
   methods: {
-    getProfile(id) {
+    getHistory() {
       axios
-        .get(`/medical/${id}`)
+        .get(`/history/${this.user.id}`)
         .then((response) => {
-          this.medical = response.data.medical;
+          this.history = response.data.history;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    getSymptoms() {
+      axios
+        .get(`/symptom/${this.user.id}`)
+        .then((response) => {
+          this.symptoms = response.data.symptoms;
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
+    },
+    getPatients() {
+      axios
+        .get(`/patient/pair/${this.user.id}`)
+        .then((response) => {
           this.patients = response.data.patients;
-          this.id = id;
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -155,7 +175,7 @@ export default {
   background-color: #555;
 }
 .columns {
-  background-color: rgb(221, 219, 219);
+  background-color: #17ccb15d;
   width: 110%;
   height: 820px;
   margin: 5px;

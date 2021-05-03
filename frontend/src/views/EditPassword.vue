@@ -120,6 +120,7 @@ export default {
     old_password: {
       required: required,
       minLength: minLength(8),
+      complex: complexPassword,
     },
     new_password: {
       required: required,

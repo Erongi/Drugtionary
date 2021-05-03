@@ -3,17 +3,19 @@
     <div class="task">
       <p class="mb-5 subtitle">คนไข้ทั่วไป</p>
 
-      <div class="sub_task" v-for="task in note.npt" :key="task.id">
-        {{ task.message }}
-        <div class="level-right mr-3">
-          <i @click="delTaskNPT(task.id)" class="fas fa-trash-alt ml-5"></i>
+      <div v-for="task in note" :key="task.id">
+        <div class="sub_task" v-if="task.type === 'note1'">
+          {{ task.message }}
+          <div class="level-right mr-3">
+            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+          </div>
         </div>
       </div>
 
       <div>
         <input
-          v-if="nptForm"
-          @click="nptForm = !nptForm"
+          v-if="form1"
+          @click="form1 = !form1"
           type="button"
           class="btn"
           value="เพิ่มบันทึก"
@@ -22,17 +24,19 @@
           <input
             class="input is-primary mb-2"
             type="text"
-            v-model="nptText"
-            placeholder="Add Non Priority Tasks"
+            v-model="text1"
+            placeholder="บันทึก"
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addNPT"> บันทึก </a>
+              <a class="button is-primary" @click="addNote('note1')">
+                บันทึก
+              </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
-                @click="(nptForm = !nptForm), (nptText = '')"
+                @click="(form1 = !form1), (text1 = '')"
               >
                 ยกเลิก
               </a>
@@ -44,16 +48,18 @@
 
     <div class="task">
       <p class="mb-5 subtitle">คนไข้ที่ต้องดูแล</p>
-      <div class="sub_task" v-for="task in note.tdt" :key="task.id">
-        {{ task.message }}
-        <div class="level-right mr-3">
-          <i @click="delTaskTDT(task.id)" class="fas fa-trash-alt ml-5"></i>
+      <div v-for="task in note" :key="task.id">
+        <div class="sub_task" v-if="task.type === 'note2'">
+          {{ task.message }}
+          <div class="level-right mr-3">
+            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+          </div>
         </div>
       </div>
       <div>
         <input
-          v-if="tdtForm"
-          @click="tdtForm = !tdtForm"
+          v-if="form2"
+          @click="form2 = !form2"
           type="button"
           class="btn"
           value="เพิ่มบันทึก"
@@ -62,17 +68,19 @@
           <input
             class="input is-primary mb-2"
             type="text"
-            v-model="tdtText"
-            placeholder="Add To-Do Tasks"
+            v-model="text2"
+            placeholder="บันทึก"
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addTDT"> บันทึก </a>
+              <a class="button is-primary" @click="addNote('note2')">
+                บันทึก
+              </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
-                @click="(tdtForm = !tdtForm), (tdtText = '')"
+                @click="(form2 = !form2), (text2 = '')"
               >
                 ยกเลิก
               </a>
@@ -84,16 +92,18 @@
 
     <div class="task">
       <p class="mb-5 subtitle">คนไข้ที่ดูแลอยู่</p>
-      <div class="sub_task" v-for="task in note.ipt" :key="task.id">
-        {{ task.message }}
-        <div class="level-right mr-3">
-          <i @click="delTaskIPT(task.id)" class="fas fa-trash-alt ml-5"></i>
+      <div v-for="task in note" :key="task.id">
+        <div class="sub_task" v-if="task.type === 'note3'">
+          {{ task.message }}
+          <div class="level-right mr-3">
+            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+          </div>
         </div>
       </div>
       <div>
         <input
-          v-if="iptForm"
-          @click="iptForm = !iptForm"
+          v-if="form3"
+          @click="form3 = !form3"
           type="button"
           class="btn"
           value="เพิ่มบันทึก"
@@ -102,17 +112,19 @@
           <input
             class="input is-primary mb-2"
             type="text"
-            v-model="iptText"
-            placeholder="Add In Progress Tasks"
+            v-model="text3"
+            placeholder="บันทึก"
           />
           <div class="field is-grouped is-grouped-right">
             <p class="control">
-              <a class="button is-primary" @click="addIPT"> บันทึก </a>
+              <a class="button is-primary" @click="addNote('note3')">
+                บันทึก
+              </a>
             </p>
             <p class="control">
               <a
                 class="button is-light"
-                @click="(iptForm = !iptForm), (iptText = '')"
+                @click="(form3 = !form3), (text3 = '')"
               >
                 ยกเลิก
               </a>
@@ -137,13 +149,13 @@ export default {
   data() {
     return {
       id: null,
-      nptForm: 1,
-      tdtForm: 1,
-      iptForm: 1,
+      form1: 1,
+      form2: 1,
+      form3: 1,
 
-      nptText: "",
-      tdtText: "",
-      iptText: "",
+      text1: "",
+      text2: "",
+      text3: "",
       note: [],
     };
   },
@@ -152,7 +164,7 @@ export default {
       axios
         .get(`/note/${id}`)
         .then((response) => {
-          this.note = response.data;
+          this.note = response.data.note;
           this.id = this.$route.params.id;
         })
         .catch((err) => {
@@ -160,76 +172,46 @@ export default {
         });
     },
 
-    addIPT() {
+    addNote(type) {
+      let text = "what";
+      if (type == "note1") {
+        text = this.text1;
+      }
+      if (type == "note2") {
+        text = this.text2;
+      }
+      if (type == "note3") {
+        text = this.text3;
+      }
       axios
-        .post(`/note/ipt/${this.id}`, {
-          message: this.iptText,
+        .post(`/note/${this.id}`, {
+          type: type,
+          message: text,
         })
         .then((response) => {
-          this.iptText = "";
-          this.iptForm = 1;
-          this.note.ipt.push(response.data);
+          if (type == "note1") {
+            this.text1 = "";
+            this.form1 = 1;
+          }
+          if (type == "note2") {
+            this.text2 = "";
+            this.form2 = 1;
+          }
+          if (type == "note3") {
+            this.text3 = "";
+            this.form3 = 1;
+          }
+          this.note.push(response.data);
         })
         .catch((error) => {
           this.error = error.response.data.message;
         });
     },
-    addNPT() {
+    delNote(id) {
       axios
-        .post(`/note/npt/${this.id}`, {
-          message: this.nptText,
-        })
-        .then((response) => {
-          this.nptText = "";
-          this.nptForm = 1;
-          this.note.npt.push(response.data);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-    },
-    addTDT() {
-      axios
-        .post(`/note/tdt/${this.id}`, {
-          message: this.tdtText,
-        })
-        .then((response) => {
-          this.tdtText = "";
-          this.tdtForm = 1;
-          this.note.tdt.push(response.data);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-    },
-    delTaskNPT(id) {
-      axios
-        .delete(`/note/npt/${id}`)
+        .delete(`/note/${id}`)
         .then((response) => {
           this.note.npt = this.note.npt.filter((e) => e.id != id);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-      // console.log(id);
-    },
-
-    delTaskIPT(id) {
-      axios
-        .delete(`/note/ipt/${id}`)
-        .then((response) => {
-          this.note.ipt = this.note.ipt.filter((e) => e.id != id);
-        })
-        .catch((error) => {
-          this.error = error.response.data.message;
-        });
-      // console.log(id);
-    },
-    delTaskTDT(id) {
-      axios
-        .delete(`/note/tdt/${id}`)
-        .then((response) => {
-          this.note.tdt = this.note.tdt.filter((e) => e.id != id);
         })
         .catch((error) => {
           this.error = error.response.data.message;
@@ -242,7 +224,7 @@ export default {
 
 <style scoped>
 .task {
-  background: rgb(236, 236, 236);
+  background: #1784cc2f;
   margin: 4px;
   width: 24%;
   padding: 10px;

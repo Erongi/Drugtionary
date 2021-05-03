@@ -39,7 +39,7 @@
           <button
             class="button is-success"
             @click="AddModal = true"
-            v-if="user"
+            v-if="user && user.role === 'patient'"
           >
             เพิ่มยา
           </button>

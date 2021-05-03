@@ -40,11 +40,13 @@ router.get(
   async function (req, res, next) {
     try {
       const search = req.query.search || "";
-      let sql = "SELECT * FROM `users` WHERE `role`= 'patient'";
+      let sql =
+        "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM `users` WHERE `role`= 'patient'";
       let cond = [];
       if (search.length > 0) {
         sql =
-          "SELECT * FROM `users` WHERE `role`= 'patient' AND (`first_name` LIKE ? OR `last_name` LIKE ?) ;";
+          "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM `users` " +
+          "WHERE `role`= 'patient' AND (`first_name` LIKE ? OR `last_name` LIKE ?) ;";
         cond = [`%${search}%`, `%${search}%`];
       }
       const [rows, fields] = await pool.query(sql, cond);
@@ -61,9 +63,10 @@ router.get(
   permisionProfile,
   function (req, res, next) {
     // Query data from 3 tables
-    const promise1 = pool.query("SELECT * FROM users WHERE id=?", [
-      req.params.id,
-    ]);
+    const promise1 = pool.query(
+      "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM users WHERE id=?",
+      [req.params.id]
+    );
     const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [
       req.params.id,
     ]);
@@ -151,40 +154,34 @@ router.put("/patient/delPair/:id", async function (req, res, next) {
     conn.release();
   }
 });
-
-router.post("/symptom/:id", isLoggedIn, async function (req, res, next) {
-  if (req.method == "POST") {
-    const description = req.body.description;
-    const user_id = req.body.user_id;
-    const create_by = req.body.create_by;
-
-    const conn = await pool.getConnection();
-    // Begin transaction
-    await conn.beginTransaction();
-    try {
+router.get("/patient/pair/:medical_id", async function (req, res, next) {
+  const conn = await pool.getConnection();
+  await conn.beginTransaction();
+  try {
+    let patients = [];
+    const [
+      patient_id,
+    ] = await conn.query(
+      "SELECT `user_id` FROM `patients` WHERE `medical_id` = ?",
+      [req.params.medical_id]
+    );
+    for (i = 0; i < patient_id.length; i++) {
       const [
-        rows1,
-        fields1,
+        [patient],
       ] = await conn.query(
-        "INSERT INTO `symptoms` (`description`,`user_id`, `create_by`) VALUES(?, ?,?)",
-        [description, user_id, create_by]
+        "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
+        [patient_id[i].user_id]
       );
-
-      const [
-        rows2,
-        fields2,
-      ] = await conn.query("SELECT * FROM `symptoms` WHERE `id` = ?", [
-        rows1.insertId,
-      ]);
-      await conn.commit();
-      return res.json(rows2[0]);
-    } catch (err) {
-      await conn.rollback();
-      return res.status(400).json(err);
-    } finally {
-      console.log("finally");
-      conn.release();
+      patients.push(patient);
     }
+    await conn.commit();
+    res.json({ patients: patients });
+  } catch (err) {
+    await conn.rollback();
+    return res.status(500).json(err);
+  } finally {
+    console.log("finally");
+    conn.release();
   }
 });
 
