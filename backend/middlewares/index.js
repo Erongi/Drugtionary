@@ -28,12 +28,12 @@ async function isLoggedIn(req, res, next) {
 
   // Set user
   const [
-    users,
+    [user],
   ] = await pool.query(
     "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
     [token.user_id]
   );
-  req.user = users[0];
+  req.user = user;
 
   next();
 }

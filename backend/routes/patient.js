@@ -41,11 +41,11 @@ router.get(
     try {
       const search = req.query.search || "";
       let sql =
-        "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM `users` WHERE `role`= 'patient'";
+        "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile`, `email` FROM `users` WHERE `role`= 'patient'";
       let cond = [];
       if (search.length > 0) {
         sql =
-          "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM `users` " +
+          "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile`, `email` FROM `users` " +
           "WHERE `role`= 'patient' AND (`first_name` LIKE ? OR `last_name` LIKE ?) ;";
         cond = [`%${search}%`, `%${search}%`];
       }
@@ -64,7 +64,7 @@ router.get(
   function (req, res, next) {
     // Query data from 3 tables
     const promise1 = pool.query(
-      "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile` FROM users WHERE id=?",
+      "SELECT `id`, `username`, `first_name`, `last_name`, `age`,`gender`, `picture`, `mobile`, `email` FROM users WHERE id=?",
       [req.params.id]
     );
     const promise2 = pool.query("SELECT * FROM history WHERE patient_id=?", [

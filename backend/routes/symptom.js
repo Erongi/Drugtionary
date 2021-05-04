@@ -28,7 +28,7 @@ router.get("/symptom/:userId", async function (req, res, next) {
 router.post("/symptom/:id", isLoggedIn, async function (req, res, next) {
   if (req.method == "POST") {
     const description = req.body.description;
-    const user_id = req.body.user_id;
+    const user_id = req.params.id;
     const create_by = req.body.create_by;
 
     const conn = await pool.getConnection();

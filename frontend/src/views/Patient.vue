@@ -228,7 +228,6 @@ export default {
     addSymptom() {
       axios
         .post(`/symptom/${this.id}`, {
-          user_id: this.id,
           description: this.text,
           create_by: this.user.id,
         })

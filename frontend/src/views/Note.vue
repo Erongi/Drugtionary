@@ -7,7 +7,7 @@
         <div class="sub_task" v-if="task.type === 'note1'">
           {{ task.message }}
           <div class="level-right mr-3">
-            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+            <i @click="delNote(task.id)" class="fas fa-trash-alt ml-5"></i>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
         <div class="sub_task" v-if="task.type === 'note2'">
           {{ task.message }}
           <div class="level-right mr-3">
-            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+            <i @click="delNote(task.id)" class="fas fa-trash-alt ml-5"></i>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@
         <div class="sub_task" v-if="task.type === 'note3'">
           {{ task.message }}
           <div class="level-right mr-3">
-            <i @click="delTask(task.id)" class="fas fa-trash-alt ml-5"></i>
+            <i @click="delNote(task.id)" class="fas fa-trash-alt ml-5"></i>
           </div>
         </div>
       </div>
@@ -211,7 +211,7 @@ export default {
       axios
         .delete(`/note/${id}`)
         .then((response) => {
-          this.note.npt = this.note.npt.filter((e) => e.id != id);
+          this.note = this.note.filter((e) => e.id != id);
         })
         .catch((error) => {
           this.error = error.response.data.message;
