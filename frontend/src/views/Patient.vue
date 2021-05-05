@@ -33,9 +33,13 @@
 
             <!-- ปุ่มสำหรับลบคนไข้ -->
             <div v-else>
-              <center>
-                ผู้ดูแล: {{ medical.first_name }} {{ medical.last_name }}
-              </center>
+              <article class="message is-primary mx-6">
+                <div class="message-body">
+                  <center>
+                    ผู้ดูแล: {{ medical.first_name }} {{ medical.last_name }}
+                  </center>
+                </div>
+              </article>
               <button
                 v-if="checkPermission()"
                 class="button button_modify is-danger"
@@ -66,7 +70,9 @@
               </thead>
               <tbody>
                 <tr v-for="i in history" :key="i.id">
-                  <td>{{ i.drug_name }}</td>
+                  <router-link :to="`/drug/${i.drug_id}`">
+                    <td>{{ i.drug_name }}</td></router-link
+                  >
                   <td>{{ i.type }}</td>
                   <td>{{ i.date }}</td>
                   <td>{{ i.time }}</td>
@@ -96,9 +102,16 @@
             <table>
               <td>
                 <tr v-for="symptom in symptoms" :key="symptom.id">
-                  {{
-                    symptom.description
-                  }}
+                  <div class="tags has-addons mb-1">
+                    <span class="tag is-danger is-medium">
+                      {{ symptom.description }}</span
+                    >
+                    <a
+                      v-if="checkPermission()"
+                      class="tag is-delete is-medium"
+                      @click="delSymptom(symptom.id)"
+                    ></a>
+                  </div>
                 </tr>
               </td>
             </table>
@@ -218,7 +231,7 @@ export default {
       if (file_path) {
         return "http://localhost:3000/" + file_path;
       } else {
-        return "https://bulma.io/images/placeholders/640x360.png";
+        return "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQHBg0QEBIPEA4QEBEQFRgQDRcQExAaFhUWFiATFRUYHSggGB4lGxgWITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NFQ0NDy0ZFRkrLSs3Ky0tLisrKzctNy0rNystLS0rKysrKy0rLSsrKysrKysrKysrKysrKysrKysrK//AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAAAwQFAgYBB//EADQQAQACAAMFBQcCBwEAAAAAAAABAgMEEQUSITFhQVFxgbETIlKRocHRFDQyQnKCkuHxJP/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A/TAGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAHVKTiW0iJmegOX2I1nSOM9F2mzL25zWv1lo5fLVy9eEce2Z5yauMzC2de8cdKx15/KE9dld9p8qtITVZ07Kj4p/wAUd9l2jlaJ8Y0aoaMHFyl8LnWdO+OMIHpVTNZGuNEzHu2747fGDUxijvFwpwbzW0aT69YcKgAAAAAAAAAAAAAAAAAA3Mjl/YYMfFPGfwx8vTfzFI77Q9ClWACKAAAAAAgzmXjMYWn80cpYUxuzMTzjg9IyNq4W5jxaOVo+sLEqiAqAAAAAAAAAAAAAAAALOz41zlPP0luMPZv7yvn6S3EqwARQAAAAABS2rTeyuvwzE/b7rqttGf8Ax316esAwwGmQAAAAAAAAAAAAAAAFrZ37ynn6S22FkJ0zlPH7S3UqwARQAAAAABibStM5u0azpGmnHlwhtsHPTrnL+P2WCABWQAAAAAAAAAAAAAAAE+SiZzNJiJmItHZybyHJ03MtSI7on5pkrQAgAAAAAAMDNxP6m+sTGtp5xz4t9U2nTeylp7Y0mPmsGKArIAAAAAAAAAAAAAAADc2fffylOnD5LLN2PicL1/uj0/DSZaAAAAAAAAFLa193LafFMR8uK6ydr4m9jVr8MeqwUAFZAAAAAAAAABQAAAAAEmXxpwMWLR/1t5XH/UYMW005xprrowGnsfE4Xr/d9vwlGkAigAAAAAIM3mP02Frprx056MPExJxMSbTzmdWhti/GlfGft+Wa1EAAAAAAAAAAABAAAAAABNlMb2GPW3ZynwlCA9LE6wKWysSb5eYn+WdIXWWgAAAAFbaN5plLadI+YMrOYvtszaezlHhCAGkABAAAAAAAAAAAAAAAAAAGxsmNMtPW0+kLqts+m5k6ddZ+c6rLLQAAAArbRjXJ38p+sLKPMU38C8d9Zj6A88A0yAAAAAAAAAAAAAAAAAAOqV37xEc5nQpSb20iJmejVyGS9jO9b+L0FXaxu1iO6NH0GVAAAAAAefzWH7LMWjrrHhKJt57KfqK6xwtHLr0lj4mHOFbS0TEtRHAAgAAAAAAAAAAAAPsRvTpHGei9l9mzfjf3Y7o5/wChVGtd+2kRMz0X8vsybcbzpHdHP5tHBwK4NdKxEes+aRNMR4WDXBrpWIhICKAAAAAAAAOcTDjErpaImOroBmZjZnbSfKftLPxMOcO2lomJ6vRuMTDjFrpaImOq6jzo0cxszTjSdek/aVC9JpbSYmJ6qOQBAAAAAH2OMg+LeVyNsbjPu1+s+ELeSyG5EWvxt2R2R+ZX01cRYGXrgR7sce+eMz5pQRQAAAAAAAAAAAAAAABHjYNcaulo19Y80gDIzOzpw+Nfej6x+VF6VTzmRjHiZrwv9J8VlTGMOrVmlpieEw5VAABpbKy2vvz4V/LOrG9aIjnM6PRYVPZ4cVjlEaFWOgGVAAAAAAAAAAAAAAAAAAAAAAUdqZffw9+P4q8+sMh6WY1h57Hw/ZY1q90rEqMBUTZX9zh/1R6t8EqwARQAAAAAAAAAAAAAAAAAAAAABibS/eW8vSAWJVUBUf/Z";
       }
     },
     cancelModal() {
@@ -251,6 +264,16 @@ export default {
         return true;
       }
       return false;
+    },
+    delSymptom(id) {
+      axios
+        .delete(`/symptom/${id}`)
+        .then((response) => {
+          this.symptoms = this.symptoms.filter((e) => e.id != id);
+        })
+        .catch((error) => {
+          this.error = error.response.data.message;
+        });
     },
   },
 };

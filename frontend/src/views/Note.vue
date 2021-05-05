@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="task">
+    <div class="task mt-6 mx-3 ml-6">
       <p class="mb-5 subtitle">คนไข้ทั่วไป</p>
 
       <div v-for="task in note" :key="task.id">
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="task">
+    <div class="task mt-6 mx-3">
       <p class="mb-5 subtitle">คนไข้ที่ต้องดูแล</p>
       <div v-for="task in note" :key="task.id">
         <div class="sub_task" v-if="task.type === 'note2'">
@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <div class="task">
+    <div class="task mt-6 mx-3">
       <p class="mb-5 subtitle">คนไข้ที่ดูแลอยู่</p>
       <div v-for="task in note" :key="task.id">
         <div class="sub_task" v-if="task.type === 'note3'">

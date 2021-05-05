@@ -1,7 +1,7 @@
 const express = require("express");
 const pool = require("../config");
 const path = require("path");
-
+const { isLoggedIn, isMedical } = require("../middlewares");
 router = express.Router();
 
 // Require multer for file upload
@@ -49,6 +49,8 @@ router.get("/drug/:id", async function (req, res, next) {
 
 router.post(
   "/drugs",
+  isLoggedIn,
+  isMedical,
   upload.single("myImage"),
   async function (req, res, next) {
     if (req.method == "POST") {

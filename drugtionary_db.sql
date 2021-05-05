@@ -118,13 +118,6 @@ CREATE TABLE `symptoms` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `patients` (`id`, `name`, `gender`, `age`, `image`, `symptom`, `medical_id`) VALUES
-('1', 'พัสกร อรุณสดใส', 'ชาย', '20', 'https://randomuser.me/api/portraits/women/1.jpg', 'เผ็ด', NULL),
-('2', 'วรนิช วรนุช', 'หญิง', '15', 'https://randomuser.me/api/portraits/women/12.jpg', 'หวาน', NULL);
-
-
-INSERT INTO `medicals` (`id`, `name`, `gender`, `age`, `image`, `position`, `description`) VALUES
-('1', 'พญ.วันวิสาข์ ตันศิริเจริญกุล', 'ชาย', '40', 'https://i.pinimg.com/736x/6b/eb/5d/6beb5d8607e0a9bb2e3d5b82b09cbfe1.jpg', 'รองผู้อำนวยการโรงพยาบาลฌชนต์ราราช', 'Doctor of Medicine, Faculty of Medicine, Chiang Mai University. Certificate of Orthopedic surgery, Faculty of Medicine, Chiang Mai University. Fellowship in Bone and Soft tissue Tumour, Mayo Clinic, USA, 2005 Master degree of Biomedical Science in clinical research, Mayo Graduated School, Rochester, Minnesota, USA, 2005 Clinical Visitor in Joint Replacement Surgery for Hip and Knee, Western Ontario University, Canada, 2006 Master of Business Administration, Payap University, 2009');
 
 INSERT INTO `drugs` (`id`, `name`, `group`, `type`, `properties`, `patient_group`,`image`, `pattern`) VALUES
 ('1', 'Abilify', 'ยาระงับอาการทางจิต', 'ยาตามใบสั่งแพทย์', 'รักษาโรคจิตเภท โรคไบโพลาร์ โรคซึมเศร้า กลุ่มอาการทูเร็ตต์','เด็กและผู้ใหญ่', 'drugs/Abilify.jpg', 'ยารับประทาน ยาฉีด'),

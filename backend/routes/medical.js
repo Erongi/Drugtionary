@@ -1,9 +1,9 @@
 const express = require("express");
 const pool = require("../config");
-
+const { isLoggedIn } = require("../middlewares");
 router = express.Router();
 
-router.get("/medical/:id", function (req, res, next) {
+router.get("/medical/:id", isLoggedIn, function (req, res, next) {
   // Query data from 3 tables
   const promise1 = pool.query("SELECT * FROM medicals WHERE id=?", [
     req.params.id,

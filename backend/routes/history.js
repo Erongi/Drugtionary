@@ -1,18 +1,9 @@
 const express = require("express");
 const pool = require("../config");
-const { isLoggedIn } = require("../middlewares");
+const { isLoggedIn, isOwner } = require("../middlewares");
 router = express.Router();
 
-router.get("/history", async function (req, res, next) {
-  try {
-    const [rows, fields] = await pool.query("SELECT * FROM `history`");
-    return res.json(rows);
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
-
-router.get("/history/:userId", async function (req, res, next) {
+router.get("/history/:userId", isLoggedIn, async function (req, res, next) {
   try {
     const [
       history,

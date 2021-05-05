@@ -1,7 +1,8 @@
 const express = require("express");
 const pool = require("../config");
 const path = require("path");
-const { isLoggedIn } = require("../middlewares");
+const { isLoggedIn, isMedical } = require("../middlewares");
+
 const permisionProfile = async (req, res, next) => {
   if (req.user.role === "admin") {
     return next();
@@ -98,91 +99,106 @@ router.get(
   }
 );
 
-router.put("/patient/pair/:id", isLoggedIn, async function (req, res, next) {
-  const conn = await pool.getConnection();
-  await conn.beginTransaction();
-  try {
-    const [
-      [patient],
-    ] = await conn.query("SELECT * FROM patients WHERE user_id=?", [
-      req.params.id,
-    ]);
-
-    if (!patient) {
-      await conn.query(
-        "INSERT INTO patients(user_id, medical_id) VALUES (?, ?)",
-        [req.params.id, req.user.id]
-      );
-    }
-    await conn.query(
-      "UPDATE `patients` SET `medical_id` = ? WHERE `user_id` = ?",
-      [req.user.id, req.params.id]
-    );
-    await conn.commit();
-    const [
-      medicals,
-      medicalsFields,
-    ] = await conn.query(
-      "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE id=?",
-      [req.user.id]
-    );
-    res.json({ medical: medicals[0] });
-  } catch (err) {
-    await conn.rollback();
-    return res.status(500).json(err);
-  } finally {
-    console.log("finally");
-    conn.release();
-  }
-});
-
-router.put("/patient/delPair/:id", async function (req, res, next) {
-  const conn = await pool.getConnection();
-  await conn.beginTransaction();
-  try {
-    await conn.query(
-      "UPDATE `patients` SET `medical_id` = null WHERE `user_id` = ?",
-      [req.params.id]
-    );
-    await conn.commit();
-    res.json({ medicals: {} });
-  } catch (err) {
-    await conn.rollback();
-    return res.status(500).json(err);
-  } finally {
-    console.log("finally");
-    conn.release();
-  }
-});
-router.get("/patient/pair/:medical_id", async function (req, res, next) {
-  const conn = await pool.getConnection();
-  await conn.beginTransaction();
-  try {
-    let patients = [];
-    const [
-      patient_id,
-    ] = await conn.query(
-      "SELECT `user_id` FROM `patients` WHERE `medical_id` = ?",
-      [req.params.medical_id]
-    );
-    for (i = 0; i < patient_id.length; i++) {
+router.put(
+  "/patient/pair/:id",
+  isLoggedIn,
+  isMedical,
+  async function (req, res, next) {
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+    try {
       const [
         [patient],
-      ] = await conn.query(
-        "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
-        [patient_id[i].user_id]
+      ] = await conn.query("SELECT * FROM patients WHERE user_id=?", [
+        req.params.id,
+      ]);
+
+      if (!patient) {
+        await conn.query(
+          "INSERT INTO patients(user_id, medical_id) VALUES (?, ?)",
+          [req.params.id, req.user.id]
+        );
+      }
+      await conn.query(
+        "UPDATE `patients` SET `medical_id` = ? WHERE `user_id` = ?",
+        [req.user.id, req.params.id]
       );
-      patients.push(patient);
+      await conn.commit();
+      const [
+        medicals,
+        medicalsFields,
+      ] = await conn.query(
+        "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE id=?",
+        [req.user.id]
+      );
+      res.json({ medical: medicals[0] });
+    } catch (err) {
+      await conn.rollback();
+      return res.status(500).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
     }
-    await conn.commit();
-    res.json({ patients: patients });
-  } catch (err) {
-    await conn.rollback();
-    return res.status(500).json(err);
-  } finally {
-    console.log("finally");
-    conn.release();
   }
-});
+);
+
+router.put(
+  "/patient/delPair/:id",
+  isLoggedIn,
+  isMedical,
+  async function (req, res, next) {
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+    try {
+      await conn.query(
+        "UPDATE `patients` SET `medical_id` = null WHERE `user_id` = ?",
+        [req.params.id]
+      );
+      await conn.commit();
+      res.json({ medicals: {} });
+    } catch (err) {
+      await conn.rollback();
+      return res.status(500).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+  }
+);
+router.get(
+  "/patient/pair/:medical_id",
+  isLoggedIn,
+  isMedical,
+  async function (req, res, next) {
+    const conn = await pool.getConnection();
+    await conn.beginTransaction();
+    try {
+      let patients = [];
+      const [
+        patient_id,
+      ] = await conn.query(
+        "SELECT `user_id` FROM `patients` WHERE `medical_id` = ?",
+        [req.params.medical_id]
+      );
+      for (i = 0; i < patient_id.length; i++) {
+        const [
+          [patient],
+        ] = await conn.query(
+          "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
+          [patient_id[i].user_id]
+        );
+        patients.push(patient);
+      }
+      await conn.commit();
+      res.json({ patients: patients });
+    } catch (err) {
+      await conn.rollback();
+      return res.status(500).json(err);
+    } finally {
+      console.log("finally");
+      conn.release();
+    }
+  }
+);
 
 exports.router = router;

@@ -43,9 +43,8 @@
                       <p class="title is-8">
                         {{ patient.first_name }} {{ patient.last_name }}
                       </p>
-                      <p class="is-6">อายุ : {{ patient.age }}</p>
                       <p class="is-6">เพศ : {{ patient.gender }}</p>
-                      <p class="is-6">อาการ : {{ patient.symptom }}</p>
+                      <p class="is-6">อายุ : {{ patient.age }}</p>
                     </div>
                   </div>
                 </div>

@@ -15,7 +15,9 @@
           <div class="navbar-dropdown">
             <a class="navbar-item" @click="profile">โปรไฟล์</a>
             <a class="navbar-item" @click="editProfile">แก้ไขโปรไฟล์</a>
-            <a class="navbar-item" @click="logout">ออกจากระบบ</a>
+            <a class="navbar-item button is-danger is-inverted" @click="logout"
+              >ออกจากระบบ</a
+            >
           </div>
         </div>
 
@@ -47,7 +49,10 @@
         <div class="container-menu subtitle">
           <router-link to="/drugs">ยา</router-link>
         </div>
-        <div v-if="user" class="container-menu subtitle">
+        <div
+          v-if="user && (user.role === 'medical' || user.role === 'admin')"
+          class="container-menu subtitle"
+        >
           <router-link :to="`/note/${user.id}`">บันทึก</router-link>
         </div>
         <div v-if="user" class="container-menu subtitle">

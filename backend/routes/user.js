@@ -5,19 +5,7 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 
 const { generateToken } = require("../utils/token");
-const { isLoggedIn } = require("../middlewares");
-const permisionProfile = async (req, res, next) => {
-  if (req.user.role === "admin") {
-    return next();
-  }
-  if (req.user.role === "medical") {
-    return next();
-  }
-  if (req.params.id != req.user.id) {
-    return res.status(403).send("You dont have permision. XD");
-  }
-  return next();
-};
+const { isLoggedIn, isMedical } = require("../middlewares");
 
 router = express.Router();
 
@@ -217,25 +205,20 @@ router.get("/user/me", isLoggedIn, async (req, res, next) => {
   res.json(req.user);
 });
 
-router.get(
-  "/user/:id",
-  isLoggedIn,
-  permisionProfile,
-  async function (req, res, next) {
-    try {
-      const [
-        rows,
-        fields,
-      ] = await pool.query(
-        "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
-        [req.params.id]
-      );
-      return res.json({ user: rows[0] });
-    } catch (err) {
-      return res.status(500).json(err);
-    }
+router.get("/user/:id", isLoggedIn, isMedical, async function (req, res, next) {
+  try {
+    const [
+      rows,
+      fields,
+    ] = await pool.query(
+      "SELECT `id`,`username`,`first_name`,`last_name`,`age`,`gender`,`role`,`email`,`picture`,`mobile` FROM `users` WHERE `id` = ?",
+      [req.params.id]
+    );
+    return res.json({ user: rows[0] });
+  } catch (err) {
+    return res.status(500).json(err);
   }
-);
+});
 
 router.put(
   "/user/editProfile",

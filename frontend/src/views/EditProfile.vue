@@ -39,84 +39,6 @@
               </div>
             </div>
 
-            <!-- <div class="field">
-              <label class="label">Old Password</label>
-              <div class="control has-icons-left has-icons-right">
-                <input
-                  v-model="$v.old_password.$model"
-                  :class="{ 'is-danger': $v.old_password.$error }"
-                  class="input"
-                  type="password"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-              <template v-if="$v.old_password.$error">
-                <p class="help is-danger" v-if="!$v.old_password.required">
-                  This field is required
-                </p>
-                <p class="help is-danger" v-if="!$v.old_password.minLength">
-                  length > 8
-                </p>
-              </template>
-            </div>
-
-            <div class="field">
-              <label class="label">New Password</label>
-              <div class="control has-icons-left has-icons-right">
-                <input
-                  v-model="$v.new_password.$model"
-                  :class="{ 'is-danger': $v.new_password.$error }"
-                  class="input"
-                  type="password"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-              <template v-if="$v.new_password.$error">
-                <p class="help is-danger" v-if="!$v.new_password.required">
-                  This field is required
-                </p>
-                <p class="help is-danger" v-if="!$v.new_password.minLength">
-                  length > 8
-                </p>
-                <p class="help is-danger" v-if="!$v.new_password.complex">
-                  more complex pls
-                </p>
-              </template>
-            </div>
-
-            <div class="field">
-              <label class="label">Confirm New Password</label>
-              <div class="control has-icons-left has-icons-right">
-                <input
-                  v-model="$v.confirm_new_password.$model"
-                  :class="{ 'is-danger': $v.confirm_new_password.$error }"
-                  class="input"
-                  type="password"
-                />
-                <span class="icon is-small is-left">
-                  <i class="fas fa-lock"></i>
-                </span>
-              </div>
-              <template v-if="$v.confirm_new_password.$error">
-                <p
-                  class="help is-danger"
-                  v-if="!$v.confirm_new_password.required"
-                >
-                  This field is required
-                </p>
-                <p
-                  class="help is-danger"
-                  v-if="!$v.confirm_new_password.sameAs"
-                >
-                  same as password?
-                </p>
-              </template>
-            </div> -->
-
             <div class="field">
               <label class="label">First Name</label>
               <div class="control has-icons-left has-icons-right">
@@ -266,9 +188,6 @@ export default {
   data() {
     return {
       images: [],
-      // old_password: "",
-      // new_password: "",
-      // confirm_new_password: "",
       mobile: this.user.mobile,
       first_name: this.user.first_name,
       last_name: this.user.last_name,
@@ -281,24 +200,6 @@ export default {
       required: required,
       mobile: mobile,
     },
-    // old_password: {
-    //   required: required,
-    //   minLength: minLength(8),
-    // },
-    // new_password: {
-    //   required: required,
-    //   minLength: minLength(8),
-    //   complex: complexPassword,
-    // },
-    // confirm_new_password: {
-    //   required: required,
-    //   sameAs(value) {
-    //     if (value === this.new_password) {
-    //       return true;
-    //     }
-    //     return false;
-    //   },
-    // },
 
     first_name: {
       required: required,

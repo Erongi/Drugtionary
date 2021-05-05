@@ -11,7 +11,7 @@
     </section>
     <section class="hero">
       <div class="hero-body">
-        <p class="title">Create new Drug</p>
+        <p class="title">สร้างยาใหม่</p>
       </div>
     </section>
     <section class="px-6">
@@ -46,72 +46,102 @@
       </div>
 
       <div class="field mt-5">
-        <label class="label">Name</label>
+        <label class="label">ชื่อยา</label>
         <div class="control">
           <input
-            v-model="name"
+            v-model="$v.name.$model"
+            :class="{ 'is-danger': $v.name.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.name.$error">
+          <p class="help is-danger" v-if="!$v.name.required">
+            This field is required
+          </p>
+        </template>
       </div>
 
       <div class="field mt-5">
-        <label class="label">Group</label>
+        <label class="label">กลุ่มยา</label>
         <div class="control">
           <input
-            v-model="group"
+            v-model="$v.group.$model"
+            :class="{ 'is-danger': $v.group.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.group.$error">
+          <p class="help is-danger" v-if="!$v.group.required">
+            This field is required
+          </p>
+        </template>
       </div>
 
       <div class="field mt-5">
-        <label class="label">Type</label>
+        <label class="label">ประเภทยา</label>
         <div class="control">
           <input
-            v-model="type"
+            v-model="$v.type.$model"
+            :class="{ 'is-danger': $v.type.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.type.$error">
+          <p class="help is-danger" v-if="!$v.type.required">
+            This field is required
+          </p>
+        </template>
       </div>
       <div class="field mt-5">
-        <label class="label">Properties</label>
+        <label class="label">สรรพคุณ</label>
         <div class="control">
           <input
-            v-model="properties"
+            v-model="$v.properties.$model"
+            :class="{ 'is-danger': $v.properties.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.properties.$error">
+          <p class="help is-danger" v-if="!$v.properties.required">
+            This field is required
+          </p>
+        </template>
       </div>
       <div class="field mt-5">
-        <label class="label">pg</label>
+        <label class="label">กลุ่มผู้ป่วย</label>
         <div class="control">
           <input
-            v-model="pg"
+            v-model="$v.pg.$model"
+            :class="{ 'is-danger': $v.pg.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.pg.$error">
+          <p class="help is-danger" v-if="!$v.pg.required">
+            This field is required
+          </p>
+        </template>
       </div>
       <div class="field mt-5">
-        <label class="label">pattern</label>
+        <label class="label">รูปแบบของยา</label>
         <div class="control">
           <input
-            v-model="pattern"
+            v-model="$v.pattern.$model"
+            :class="{ 'is-danger': $v.pattern.$error }"
             class="input"
             type="text"
-            placeholder="Text input"
           />
         </div>
+        <template v-if="$v.pattern.$error">
+          <p class="help is-danger" v-if="!$v.pattern.required">
+            This field is required
+          </p>
+        </template>
       </div>
 
       <div class="field is-grouped">
@@ -130,7 +160,7 @@
 
 <script>
 import axios from "@/plugins/axios";
-
+import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
@@ -143,6 +173,26 @@ export default {
       pg: "",
       pattern: "",
     };
+  },
+  validations: {
+    name: {
+      required,
+    },
+    group: {
+      required: required,
+    },
+    type: {
+      required: required,
+    },
+    properties: {
+      required: required,
+    },
+    pg: {
+      required: required,
+    },
+    pattern: {
+      required: required,
+    },
   },
   methods: {
     selectImages(event) {
@@ -158,18 +208,22 @@ export default {
       this.images.splice(index, 1);
     },
     submitBlog() {
-      let formData = new FormData();
-      formData.append("name", this.name);
-      formData.append("group", this.group);
-      formData.append("type", this.type);
-      formData.append("properties", this.properties);
-      formData.append("pg", this.pg);
-      formData.append("pattern", this.pattern);
-      formData.append("myImage", this.images[0]);
-      axios
-        .post("/drugs", formData)
-        .then((res) => this.$router.push({ name: "Drugs" }))
-        .catch((e) => console.log(e.response.data));
+      this.$v.$touch();
+
+      if (!this.$v.$invalid) {
+        let formData = new FormData();
+        formData.append("name", this.name);
+        formData.append("group", this.group);
+        formData.append("type", this.type);
+        formData.append("properties", this.properties);
+        formData.append("pg", this.pg);
+        formData.append("pattern", this.pattern);
+        formData.append("myImage", this.images[0]);
+        axios
+          .post("/drugs", formData)
+          .then((res) => this.$router.push({ name: "Drugs" }))
+          .catch((e) => console.log(e.response.data));
+      }
     },
   },
 };

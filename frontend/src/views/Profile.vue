@@ -34,8 +34,13 @@
               <th class="font">คนไข้ที่ดูแล</th>
               <tr>
                 <li v-for="patient in patients" :key="patient.id">
-                  <b>{{ patient.first_name }} {{ patient.last_name }}</b> อายุ
-                  {{ patient.age }} เพศ {{ patient.gender }}
+                  <span class="tag is-primary is-medium mt-2">
+                    <router-link :to="`/patient/${patient.id}`"
+                      ><b
+                        >{{ patient.first_name }} {{ patient.last_name }}</b
+                      ></router-link
+                    ></span
+                  >
                 </li>
               </tr>
             </thead>
@@ -61,7 +66,9 @@
               </thead>
               <tbody>
                 <tr v-for="i in history" :key="i.id">
-                  <td>{{ i.drug_name }}</td>
+                  <router-link :to="`/drug/${i.drug_id}`">
+                    <td>{{ i.drug_name }}</td></router-link
+                  >
                   <td>{{ i.type }}</td>
                   <td>{{ i.date }}</td>
                   <td>{{ i.time }}</td>
@@ -83,9 +90,11 @@
             <table>
               <td>
                 <tr v-for="symptom in symptoms" :key="symptom.id">
-                  {{
-                    symptom.description
-                  }}
+                  <div class="tags has-addons mb-1">
+                    <span class="tag is-danger is-medium">
+                      {{ symptom.description }}</span
+                    >
+                  </div>
                 </tr>
               </td>
             </table>
