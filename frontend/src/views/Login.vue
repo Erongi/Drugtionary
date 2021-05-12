@@ -4,10 +4,7 @@
       <div class="column is-8">
         <h1 class="title">Welcome</h1>
         <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo quae
-          rem ipsum praesentium, tenetur doloremque libero. Fugit, dolore
-          possimus molestias cupiditate iste deserunt! Aut aliquid rem quas
-          consequatur non iste.
+          เว็บไซด์นี้จัดทำขึ้นมีจุดประสงค์ในการจัดทำ เพื่อให้แพทย์ และเภสัชกรณ์ สามาถเข้าดูรายการของยาต่างๆได้ ซึ่งหลายๆครั้งที่แพทย์ และเภสัชกรณ์ ต้องคอยหาข้อมูล หรือสอบถามข้อมูลเกี่ยวกับยาจากผู้อื่น เราจึงได้นำมาเป็นหัวข้อในการศึกษาเพื่อประกอบกับเนื้อหาที่มีความสนใจ
         </p>
       </div>
 

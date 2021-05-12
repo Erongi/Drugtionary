@@ -47,6 +47,15 @@ router.get("/drug/:id", async function (req, res, next) {
   }
 });
 
+// const addDrugSchema = Joi.object({
+//   name: Joi.string(),
+//   group: Joi.string(),
+//   type: Joi.string(),
+//   properties: Joi.string(),
+//   patient_group: Joi.string(),
+//   pattern: Joi.string(),
+// });
+
 router.post(
   "/drugs",
   isLoggedIn,
@@ -54,6 +63,12 @@ router.post(
   upload.single("myImage"),
   async function (req, res, next) {
     if (req.method == "POST") {
+      // try {
+      //   await addDrugSchema.validateAsync(req.body, { abortEarly: false });
+      // } catch (err) {
+      //   return res.status(400).send(err);
+      // }
+
       const file = req.file;
       if (!file) {
         return res.status(400).json({ message: "Please upload a file" });

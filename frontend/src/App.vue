@@ -13,8 +13,8 @@
             <span class="pl-3">{{ user.first_name }} {{ user.last_name }}</span>
           </a>
           <div class="navbar-dropdown">
-            <a class="navbar-item" @click="profile">โปรไฟล์</a>
-            <a class="navbar-item" @click="editProfile">แก้ไขโปรไฟล์</a>
+            <a class="navbar-item button" @click="profile">โปรไฟล์</a>
+            <a class="navbar-item button" @click="editProfile">แก้ไขโปรไฟล์</a>
             <a class="navbar-item button is-danger is-inverted" @click="logout"
               >ออกจากระบบ</a
             >

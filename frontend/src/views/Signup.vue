@@ -156,6 +156,9 @@
                 <p class="help is-danger" v-if="!$v.mobile.mobile">
                   Invalid Mobile Number
                 </p>
+                <p class="help is-danger" v-if="!$v.mobile.maxLength">
+                  ไม่เกิน 10 ตัวอักษร
+                </p>
               </template>
             </div>
 
@@ -303,6 +306,7 @@ export default {
     mobile: {
       required: required,
       mobile: mobile,
+      maxLength: maxLength(10),
     },
     password: {
       required: required,
